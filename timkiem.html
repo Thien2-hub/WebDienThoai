@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style/style_timkiem.css" />
+    <title>Kết quả tìm kiếm</title>
+  </head>
+  <body>
+    <header>
+      <div class="daudo">
+        <div class="dau">
+          <div class="logo">
+<a id="logoLink" href="index.html">NH<span class="chu_o">o</span>M7</a>          </div>
+          <div class="search-container">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Tìm kiếm ở đây"
+                id="searchInput"
+              />
+              <button id="searchButton">Tìm Kiếm</button>
+            </div>
+          </div>
+
+          <script>
+            document
+              .getElementById("searchButton")
+              .addEventListener("click", function () {
+                handleSearch();
+              });
+
+            document
+              .getElementById("searchInput")
+              .addEventListener("keypress", function (e) {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              });
+
+            function handleSearch() {
+              let searchValue = document
+                .getElementById("searchInput")
+                .value.trim();
+              if (searchValue) {
+                window.location.href = `timkiem.html?q=${encodeURIComponent(
+                  searchValue
+                )}`;
+              } else {
+                alert("Vui lòng nhập từ khóa tìm kiếm!");
+              }
+            }
+          </script>
+        </div>
+        <div class="giohang_taikhoan">
+                <a href="giohang.html" class="giohang_taikhoan-item">
+                    <div class="giohang-icon">
+                        🛒
+                        <span class="cart-count">0</span>
+                    </div>
+                    <p>Giỏ Hàng</p>
+                </a>
+        
+                <a href="taikhoan.html" class="giohang_taikhoan-item">
+                    <img id="userAvatar" class="user-avatar" src="anh/avt_trang.png" alt="Avatar" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; margin-right: 8px;">
+                    <p id="usernameDisplay">Tài khoản</p>
+                </a>
+            </div>
+        </div>
+    </Header>
+  
+    <main>
+      <div class="search-results-container">
+        <h1>Kết quả tìm kiếm</h1>
+        <div class="search-query">
+          <p>Từ khóa: <strong id="search-term"></strong></p>
+        </div>
+        <div id="search-results" class="product-grid">
+        </div>
+        <div id="no-results" style="display: none">
+          <p>Không tìm thấy sản phẩm phù hợp với từ khóa tìm kiếm.</p>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get("q") || "";
+
+        document.getElementById("search-term").textContent = searchTerm;
+        document.getElementById("searchInput").value = searchTerm;
+
+        const products = [
+         {
+                        id: 1,
+                        name: "IPHONE 15 PLUS",
+                        brand: "iphone",
+                        category: "new",
+                        price: 17990000,
+                        oldPrice: 23290000,
+                        discount: 10,
+                        image: "anh/ip15pl.png",
+                        isNew: true,
+                        stars: 5
+                    },
+                    {
+                        id: 2,
+                        name: "SAMSUNG GALAXY S23",
+                        brand: "samsung",
+                        category: "new",
+                        price: 15990000,
+                        oldPrice: 19990000,
+                        discount: 20,
+                        image: "anh/samsung-galaxy-s23-ultra.jpg",
+                        isNew: true,
+                        stars: 4
+                    },
+                    {
+                        id: 3,
+                        name: "OPPO FIND X5 PRO",
+                        brand: "oppo",
+                        category: "new",
+                        price: 13990000,
+                        oldPrice: 16990000,
+                        discount: 15,
+                        image: "anh/oppo-find-x6.jpg",
+                        isNew: true,
+                        stars: 4
+                    },
+                    {
+                        id: 4,
+                        name: "XIAOMI 13 PRO",
+                        brand: "xiaomi",
+                        category: "new",
+                        price: 12990000,
+                        oldPrice: 15990000,
+                        discount: 15,
+                        image: "anh/xiaomi14.jpg",
+                        isNew: true,
+                        stars: 4
+                    },
+                    {
+                        id: 5,
+                        name: "VIVO V27",
+                        brand: "vivo",
+                        category: "new",
+                        price: 9990000,
+                        oldPrice: 14990000,
+                        discount: 33,
+                        image: "anh/vivo-v27.jpg",
+                        isNew: false,
+                        stars: 4
+                    },
+                    {
+                        id: 6,
+                        name: "REALME 11 PRO",
+                        brand: "realme",
+                        category: "new",
+                        price: 7990000,
+                        oldPrice: 11990000,
+                        discount: 33,
+                        image: "anh/realme-11-pro.jpg",
+                        isNew: false,
+                        stars: 4
+                    },
+                    {
+                        id: 7,
+                        name: "NOKIA G42",
+                        brand: "nokia",
+                        category: "new",
+                        price: 4990000,
+                        oldPrice: 6990000,
+                        discount: 29,
+                        image: "anh/nokia-g42.jpg",
+                        isNew: false,
+                        stars: 3
+                    },
+                    {
+                        id: 8,
+                        name: "XIAOMI REDMI NOTE 12",
+                        brand: "xiaomi",
+                        category: "new",
+                        price: 3990000,
+                        oldPrice: 6990000,
+                        discount: 43,
+                        image: "anh/xiaomi-note12.jpg",
+                        isNew: false,
+                        stars: 4
+                    },
+                    {
+                        id: 9,
+                        name: "IPHONE 14 PRO MAX",
+                        brand: "iphone",
+                        category: "old",
+                        price: 25990000,
+                        oldPrice: 29990000,
+                        discount: 13,
+                        image: "anh/ip15pl.png",
+                        isNew: false,
+                        stars: 5
+                    },
+                    {
+                        id: 10,
+                        name: "SAMSUNG GALAXY S22 ULTRA",
+                        brand: "samsung",
+                        category: "old",
+                        price: 18990000,
+                        oldPrice: 21990000,
+                        discount: 14,
+                        image: "anh/samsung-galaxy-s22-ultra.jpg",
+                        isNew: false,
+                        stars: 5
+                    },
+                    {
+                        id: 11,
+                        name: "OPPO FIND X5",
+                        brand: "oppo",
+                        category: "old",
+                        price: 16990000,
+                        oldPrice: 19990000,
+                        discount: 15,
+                        image: "anh/oppo-find-x5.jpg",
+                        isNew: false,
+                        stars: 4
+                    },
+                    {
+                        id: 12,
+                        name: "XIAOMI 13T PRO",
+                        brand: "xiaomi",
+                        category: "new",
+                        price: 14990000,
+                        oldPrice: 16990000,
+                        discount: 12,
+                        image: "anh/xiaomi-13-pro.jpg",
+                        isNew: false,
+                        stars: 4
+                    }
+        ];
+
+        const searchResults = products.filter((product) => {
+          const searchTermLower = searchTerm.toLowerCase();
+          return (
+            product.name.toLowerCase().includes(searchTermLower) ||
+            (product.description &&
+              product.description.toLowerCase().includes(searchTermLower))
+          );
+        });
+
+        const resultsContainer = document.getElementById("search-results");
+        const noResultsMessage = document.getElementById("no-results");
+
+        if (searchResults.length > 0) {
+          resultsContainer.innerHTML = "";
+          searchResults.forEach((product) => {
+            resultsContainer.innerHTML += `
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="${product.image}" alt="${
+              product.name
+            }">
+                            </div>
+                            <div class="product-info">
+                                <h3>${product.name}</h3>
+                                <div class="product-price">
+                                    <span class="current-price">${product.price.toLocaleString()}đ</span>
+                                    <span class="old-price">${product.oldPrice.toLocaleString()}đ</span>
+                                </div>
+                                <a href="thongtinsanpham_cdn.html?id=${
+                                  product.id
+                                }" class="view-product">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    `;
+          });
+          resultsContainer.style.display = "grid";
+          noResultsMessage.style.display = "none";
+        } else {
+          resultsContainer.style.display = "none";
+          noResultsMessage.style.display = "block";
+        }
+
+        function updateCartCount() {
+          const cart = JSON.parse(localStorage.getItem("cart")) || [];
+          const cartCount = cart.reduce(
+            (total, item) => total + (item.quantity || 1),
+            0
+          );
+          document.querySelector(".cart-count").textContent = cartCount;
+        }
+
+        updateCartCount();
+      });
+document.addEventListener("DOMContentLoaded", function () {
+    const logoLink = document.getElementById("logoLink");
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (logoLink) {
+        if (loggedInUser) {
+            logoLink.href = "index.html"; 
+        } else {
+            logoLink.href = "trangchu_cdn.html"; 
+        }
+    }
+
+    const usernameDisplay = document.getElementById("usernameDisplay");
+    const userAvatar = document.getElementById("userAvatar");
+    if (loggedInUser) {
+        if (usernameDisplay) usernameDisplay.textContent = loggedInUser;
+        let userData = JSON.parse(localStorage.getItem(`userData_${loggedInUser}`)) || {};
+        if (userAvatar && userData.avatar) {
+            userAvatar.src = userData.avatar;
+        } else if (userAvatar) {
+            userAvatar.src = "anh/avatar.png"; 
+        }
+    } else {
+        if (usernameDisplay) usernameDisplay.textContent = "Tài khoản";
+        if (userAvatar) userAvatar.src = "anh/avt_trang.png"; 
+    }
+});
+    </script>
+  </body>
+</html>

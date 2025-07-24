@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style/style_index.css">
+    <link rel="stylesheet" href="style/style_lienhe.css">
+    <title>Liên hệ - NHoM7</title>
+</head>
+<body>
+    <Header>
+        <div class="daudo">
+            <div class="dau">
+                <div class="logo">
+                    <a id="lam" href="index.html">NH<span class="chu_o">o</span>M7</a>
+                </div>
+                <div class="search-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Tìm kiếm ở đây" id="searchInput">
+                        <button id="searchButton">Tìm Kiếm</button>
+                    </div>
+                </div>
+            
+                <script>
+                    document.getElementById("searchButton").addEventListener("click", function() {
+                        let searchValue = document.getElementById("searchInput").value.trim();
+                        if (searchValue) {
+                            window.location.href = `timkiem.html?q=${encodeURIComponent(searchValue)}`;
+                        } else {
+                            alert("Vui lòng nhập từ khóa tìm kiếm!");
+                        }
+                    });
+
+                    document.getElementById("searchInput").addEventListener("keypress", function(e) {
+                        if (e.key === "Enter") {
+                            document.getElementById("searchButton").click();
+                        }
+                    });
+                </script>
+            </div>
+            <div class="giohang_taikhoan">
+                <!-- Biểu tượng giỏ hàng -->
+                <a href="giohang.html" class="giohang_taikhoan-item">
+                    <div class="giohang-icon">
+                        🛒
+                        <span class="cart-count">0</span>
+                    </div>
+                    <p>Giỏ Hàng</p>
+                </a>
+        
+                <a href="taikhoan.html" class="giohang_taikhoan-item">
+                    <img id="userAvatar" class="user-avatar" src="anh/avt_trang.png" alt="Avatar">
+                    <p id="usernameDisplay">Tài khoản</p>
+                </a>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </Header>
+
+    <div class="gachtrang">
+        <nav class="trangchu_danhmuc_gioithieu">
+            <a href="index.html" class="trangchu_danhmuc_gioithieu-item">Trang Chủ</a>
+            <a href="danhmuc.html" class="trangchu_danhmuc_gioithieu-item">Danh Mục</a>
+            <a href="gioithieu.html" class="trangchu_danhmuc_gioithieu-item">Giới Thiệu</a>
+            <a href="lienhe.html" class="trangchu_danhmuc_gioithieu-item active">Liên Hệ</a>
+            <span class="underline1"></span>
+        </nav>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuItems = document.querySelectorAll(".trangchu_danhmuc_gioithieu-item");
+            const underline = document.querySelector(".underline1");
+
+            function moveUnderline(element) {
+                underline.style.width = `${element.offsetWidth}px`;
+                underline.style.left = `${element.offsetLeft}px`;
+            }
+
+            const activeItem = document.querySelector(".trangchu_danhmuc_gioithieu-item.active");
+            if (activeItem) {
+                moveUnderline(activeItem);
+            }
+
+            menuItems.forEach(item => {
+                item.addEventListener("click", function (e) {
+                    if (this.getAttribute("href") === "#") {
+                        e.preventDefault(); 
+                    }
+
+                    menuItems.forEach(i => i.classList.remove("active"));
+                    this.classList.add("active");
+                    moveUnderline(this);
+                });
+            });
+        });
+    </script>
+
+    <main class="contact-main">
+        <div class="contact-container">
+            <div class="contact-info-section">
+                <h1>Liên hệ với chúng tôi</h1>
+                <p class="contact-intro">Cảm ơn bạn đã quan tâm đến NHoM7. Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn!</p>
+                
+                <div class="contact-info-card">
+                    <div class="contact-info-item">
+                        <div class="icon">📍</div>
+                        <div class="info">
+                            <h3>Địa chỉ</h3>
+                            <p>123 Đường ABC, Quận XYZ, Thành phố HCM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info-item">
+                        <div class="icon">📞</div>
+                        <div class="info">
+                            <h3>Điện thoại</h3>
+                            <p>Hotline: <a href="tel:18001234">1800 1234</a> (Miễn phí, 8h-21h)</p>
+                            <p>Hỗ trợ kỹ thuật: <a href="tel:18001235">1800 1235</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info-item">
+                        <div class="icon">✉️</div>
+                        <div class="info">
+                            <h3>Email</h3>
+                            <p>Chăm sóc khách hàng: <a href="mailto:cskh@nhom7.com">cskh@nhom7.com</a></p>
+                            <p>Hỗ trợ kỹ thuật: <a href="mailto:support@nhom7.com">support@nhom7.com</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info-item">
+                        <div class="icon">🕒</div>
+                        <div class="info">
+                            <h3>Giờ làm việc</h3>
+                            <p>Thứ 2 - Thứ 6: 8:00 - 21:00</p>
+                            <p>Thứ 7, Chủ nhật: 8:00 - 22:00</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-connect">
+                    <h3>Kết nối với chúng tôi</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">Facebook</a>
+                        <a href="#" class="social-icon">Instagram</a>
+                        <a href="#" class="social-icon">YouTube</a>
+                        <a href="#" class="social-icon">TikTok</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form-section">
+                <h2>Gửi tin nhắn cho chúng tôi</h2>
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Họ và tên</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Chủ đề</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">-- Chọn chủ đề --</option>
+                            <option value="support">Hỗ trợ sản phẩm</option>
+                            <option value="order">Thông tin đơn hàng</option>
+                            <option value="return">Đổi/trả hàng</option>
+                            <option value="warranty">Bảo hành</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Nội dung tin nhắn</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Gửi tin nhắn</button>
+                </form>
+                
+                <div id="form-success" class="form-success" style="display: none;">
+                    <div class="success-icon">✓</div>
+                    <h3>Cảm ơn bạn đã liên hệ!</h3>
+                    <p>Chúng tôi đã nhận được tin nhắn của bạn và sẽ phản hồi trong thời gian sớm nhất.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="map-section">
+            <h2>Bản đồ cửa hàng</h2>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5177580567037!2d106.69916121471856!3d10.771594392324446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f40a3b49e59%3A0xa1bd14e483a602db!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaG9hIGjhu41jIFThu7Egbmhpw6puIFRQLkhDTQ!5e0!3m2!1svi!2s!4v1623815429767!5m2!1svi!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="chafooter">
+            <div class="chafooter1">
+                <div class="footer1">
+                    <div class="footer-column">
+                        <h3 class="h3_footer">Tổng đài hỗ trợ miễn phí</h3>
+                        <p>Gọi mua hàng <b>1800.2097</b> (7h30 - 22h00)</p>
+                        <p>Gọi khiếu nại <b>1800.2063</b> (8h00 - 21h30)</p>
+                        <p>Gọi bảo hành <b>1800.2064</b> (8h00 - 21h00)</p>
+                        <h3 class="h3_footer">Phương thức thanh toán</h3>
+                        <p class="voucher">(*) Nhận ngay voucher 10%</p>
+                    </div>
+                
+                    <div class="footer-column">
+                        <h3 class="h3_footer">Thông tin và chính sách</h3>
+                        <a href="#">Mua hàng và thanh toán Online</a>
+                        <a href="#">Mua hàng trả góp Online</a>
+                        <a href="#">Chính sách giao hàng</a>
+                        <a href="#">Trung tâm bảo hành chính hãng</a>
+                        <a href="#">Quy định về việc sao lưu dữ liệu</a>
+                    </div>
+                
+                    <div class="footer-column">
+                        <h3 class="h3_footer">Dịch vụ và thông tin khác</h3>
+                        <a href="#">Khách hàng doanh nghiệp (B2B)</a>
+                        <a href="#">Ưu đãi thanh toán</a>
+                        <a href="#">Quy chế hoạt động</a>
+                        <a href="#">Chính sách Bảo hành</a>
+                        <a href="#">Liên hệ hợp tác kinh doanh</a>
+                        <a href="#">Tuyển dụng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contact-form');
+            const formSuccess = document.getElementById('form-success');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Lấy giá trị từ form
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+                    
+                    if (!name || !email || !phone || !subject || !message) {
+                        alert('Vui lòng điền đầy đủ thông tin!');
+                        return;
+                    }
+                    
+                    const contactData = {
+                        id: Date.now(),
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        subject: subject,
+                        message: message,
+                        date: new Date().toISOString(),
+                        status: 'pending'
+                    };
+                    
+                    const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+                    contacts.push(contactData);
+                    localStorage.setItem('contacts', JSON.stringify(contacts));
+                    
+                    contactForm.style.display = 'none';
+                    formSuccess.style.display = 'block';
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    setTimeout(function() {
+                        contactForm.style.display = 'block';
+                        formSuccess.style.display = 'none';
+                    }, 5000);
+                });
+            }
+            
+            updateCartCount();
+        });
+        
+        function updateCartCount() {
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const count = cart.reduce((total, item) => total + (parseInt(item.quantity) || 1), 0);
+                cartCountElement.textContent = count;
+            }
+        }
+    </script>
+</body>
+</html>

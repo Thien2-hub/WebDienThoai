@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style/style_giohang.css" />
+    <title>Giỏ hàng</title>
+  </head>
+  <body>
+    <!-- đầu  -->
+    <header>
+      <div class="daudo">
+        <div class="dau">
+          <div class="logo">
+            <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+          </div>
+          <div class="search-container">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Tìm kiếm ở đây"
+                id="searchInput"
+              />
+              <button id="searchButton">Tìm Kiếm</button>
+            </div>
+          </div>
+
+          <script>
+            document
+              .getElementById("searchButton")
+              .addEventListener("click", function () {
+                let searchValue = document.getElementById("searchInput").value;
+                alert("Bạn đã tìm kiếm: " + searchValue);
+              });
+          </script>
+        </div>
+        <div class="giohang_taikhoan">
+          <!-- Biểu tượng giỏ hàng -->
+          <a href="giohang.html" class="giohang_taikhoan-item">
+            <div class="giohang-icon">
+              🛒
+              <span class="cart-count">0</span>
+            </div>
+            <p>Giỏ Hàng</p>
+          </a>
+
+          <!-- Biểu tượng tài khoản -->
+         <a href="taikhoan.html" class="giohang_taikhoan-item">
+    <img id="userAvatar" class="user-avatar" src="anh/avt_trang.png" alt="Avatar" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; margin-right: 8px;">
+    <p id="usernameDisplay">Tài khoản</p>
+</a>
+        </div>
+      </div>
+    </header>
+    <!-- đầu -->
+    <!-- ở giữa  -->
+    <div class="gachtrang">
+      <nav class="trangchu_danhmuc_gioithieu">
+        <a href="index.html" class="trangchu_danhmuc_gioithieu-item">Trang Chủ</a>
+        <a href="danhmuc.html" class="trangchu_danhmuc_gioithieu-item">Danh Mục</a>
+        <a href="gioithieu.html" class="trangchu_danhmuc_gioithieu-item">Giới Thiệu</a>
+        <span class="underline1"></span>
+      </nav>
+    </div>
+    <style>
+      .trangchu_danhmuc_gioithieu {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        padding: 15px 0;
+      }
+      
+      .trangchu_danhmuc_gioithieu-item {
+        color: #000;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 10px 20px;
+        font-size: 16px;
+        position: relative;
+        transition: color 0.3s;
+      }
+      
+      .trangchu_danhmuc_gioithieu-item:hover {
+        color: #d70018;
+      }
+      
+      .underline1 {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        width: 0;
+        background-color: #d70018;
+        transition: all 0.3s ease;
+      }
+    </style>
+
+    <script>
+      
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuItems = document.querySelectorAll(".trangchu_danhmuc_gioithieu-item");
+        const underline = document.querySelector(".underline1");
+        
+        // Chỉ hiển thị gạch chân khi hover
+        menuItems.forEach((item) => {
+          item.addEventListener("mouseenter", function () {
+            underline.style.width = `${this.offsetWidth}px`;
+            underline.style.left = `${this.offsetLeft}px`;
+          });
+          
+          item.addEventListener("mouseleave", function () {
+            underline.style.width = "0";
+          });
+        });
+      });
+    </script>
+    <!-- ở giữa -->
+    <!-- giữa -->
+    <main>
+      <div class="title-Tttsp">
+        <div
+          class="breadcrumb"
+          style="font-family: 'Inter', sans-serif; margin-bottom: auto"
+        >
+          <a href="" style="font-size: 28px; padding-right: 10px; color: black"
+            >GIỎ HÀNG</a
+          >
+          <a
+            href="index.html"
+            style="color: rgba(0, 0, 0, 0.388); font-size: 10px"
+            >TRANG CHỦ</a
+          >
+          /
+          <span style="color: black; font-weight: bold; font-size: 12px"
+            >GIỎ HÀNG</span
+          >
+        </div>
+        <div class="thanhtoan" style="display: block; margin-top: auto">
+          <button class="checkout">Thanh Toán</button>
+          <h3>Tổng tiền: <span id="total-price">0</span> VND</h3>
+        </div>
+      </div>
+      <div
+        class="cart-container"
+        id="cart-items"
+        style="margin-top: auto"
+      ></div>
+
+      <script>
+        function processCheckout() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let selectedItems = [];
+
+  document.querySelectorAll(".cart-checkbox").forEach((checkbox) => {
+    if (checkbox.checked && cart[checkbox.dataset.index]) {
+      selectedItems.push(cart[checkbox.dataset.index]);
+    }
+  });
+
+  if (selectedItems.length === 0) {
+    alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
+    return;
+  }
+
+  // Tính tổng tiền (không tính quà tặng)
+  let total = selectedItems
+    .filter(item => !item.isGift)
+    .reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  // Tạo đơn hàng mới
+  let order = {
+    id: "order-" + Date.now(),
+    username: localStorage.getItem("loggedInUser") || "Khách",
+    items: selectedItems,
+    total: total,
+    status: "Chờ xử lý",
+    date: new Date().toISOString()
+  };
+
+  // Lưu vào localStorage
+  let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // Xóa các sản phẩm đã chọn khỏi giỏ hàng
+  let newCart = cart.filter((item, idx) => {
+    return !document.querySelector(`.cart-checkbox[data-index="${idx}"]`).checked;
+  });
+  localStorage.setItem("cart", JSON.stringify(newCart));
+
+  alert("Đặt hàng thành công!");
+  window.location.href = "donhang.html";
+}
+        function loadCart() {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          let cartContainer = document.getElementById("cart-items");
+          cartContainer.innerHTML = "";
+
+          if (cart.length === 0) {
+            cartContainer.innerHTML = `
+                        <div class="empty-cart">
+                            <p>Giỏ hàng của bạn đang trống</p>
+                            <a href="index.html" class="continue-shopping">Tiếp tục mua sắm</a>
+                        </div>
+                    `;
+document.querySelector(".checkout").addEventListener("click", processCheckout);            return;
+          }
+
+          cart.forEach((product, index) => {
+            let item = document.createElement("div");
+            item.classList.add("cart-item");
+
+            item.innerHTML = `
+                        <div class="cart-item-content">
+                            <input type="checkbox" class="cart-checkbox" data-index="${index}" checked>
+                            <img src="${product.image}" class="cart-item-img">
+                        </div>
+                        <div class="info">
+                            <p>${product.name}${
+              product.storage ? " - " + product.storage : ""
+            }</p>
+                        </div>
+                        <p class="price" id="price-${index}">${(
+              product.price * product.quantity
+            ).toLocaleString()} VND</p>
+                        <div class="quantity">
+                            <button class="quantity-btn minus" data-index="${index}">-</button>
+                            <input type="number" value="${
+                              product.quantity
+                            }" min="1" data-index="${index}" class="quantity-input">
+                            <button class="quantity-btn plus" data-index="${index}">+</button>
+                        </div>
+                        <div class="delete" data-index="${index}">Xóa</div>
+                    `;
+            cartContainer.appendChild(item);
+          });
+
+          document.querySelectorAll(".cart-checkbox").forEach((checkbox) => {
+            checkbox.addEventListener("change", updateTotal);
+          });
+
+          document.querySelectorAll(".quantity-btn.minus").forEach((btn) => {
+            btn.addEventListener("click", function () {
+              let index = this.dataset.index;
+              let input = document.querySelector(
+                `.quantity-input[data-index="${index}"]`
+              );
+              let newValue = parseInt(input.value) - 1;
+              if (newValue >= 1) {
+                input.value = newValue;
+                updateQuantity({ target: input });
+              }
+            });
+          });
+
+          document.querySelectorAll(".quantity-btn.plus").forEach((btn) => {
+            btn.addEventListener("click", function () {
+              let index = this.dataset.index;
+              let input = document.querySelector(
+                `.quantity-input[data-index="${index}"]`
+              );
+              input.value = parseInt(input.value) + 1;
+              updateQuantity({ target: input });
+            });
+          });
+
+          document.querySelectorAll(".quantity-input").forEach((input) => {
+            input.addEventListener("change", updateQuantity);
+          });
+
+          document.querySelectorAll(".delete").forEach((button) => {
+            button.addEventListener("click", function () {
+              removeItem(button.dataset.index);
+            });
+          });
+
+          updateTotal();
+        }
+
+        function updateTotal() {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          let totalPrice = 0;
+
+          document.querySelectorAll(".cart-checkbox").forEach((checkbox) => {
+            let index = checkbox.dataset.index;
+            if (checkbox.checked && cart[index]) {
+              totalPrice += cart[index].price * cart[index].quantity;
+            }
+          });
+
+          document.getElementById("total-price").innerText =
+            totalPrice.toLocaleString();
+        }
+
+        function updateQuantity(event) {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          let index = event.target.dataset.index;
+          let newQuantity = parseInt(event.target.value);
+
+          if (newQuantity < 1) newQuantity = 1;
+
+          cart[index].quantity = newQuantity;
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          document.getElementById(`price-${index}`).innerText =
+            (cart[index].price * newQuantity).toLocaleString() + " VND";
+
+          updateTotal();
+          updateCartCount();
+        }
+
+        function removeItem(index) {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          cart.splice(index, 1);
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          loadCart(); g
+          updateCartCount();
+        }
+
+        function processCheckout() {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          let selectedItems = [];
+
+          document.querySelectorAll(".cart-checkbox").forEach((checkbox) => {
+            if (checkbox.checked && cart[checkbox.dataset.index]) {
+              selectedItems.push(cart[checkbox.dataset.index]);
+            }
+          });
+
+          if (selectedItems.length === 0) {
+            alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
+            return;
+          }
+
+          localStorage.setItem("checkoutCart", JSON.stringify(selectedItems));
+          window.location.href = "thanhtoan.html";
+        }
+
+        function updateCartCount() {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+          let cartCountElements = document.querySelectorAll(".cart-count");
+          cartCountElements.forEach((el) => {
+            if (el) el.innerText = totalCount;
+          });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          const loggedInUser = localStorage.getItem("loggedInUser");
+          const usernameDisplay = document.getElementById("usernameDisplay");
+          const userAvatar = document.getElementById("userAvatar");
+
+          if (loggedInUser) {
+            if (usernameDisplay) {
+              usernameDisplay.textContent = loggedInUser;
+            }
+
+            if (userAvatar) {
+              let userData = JSON.parse(
+                localStorage.getItem(`userData_${loggedInUser}`)
+              ) || {
+                avatar: "anh/avatar.png",
+              };
+              userAvatar.src = userData.avatar;
+            }
+          }
+
+          updateCartCount();
+
+          loadCart();
+
+          document
+            .querySelector(".checkout")
+            .addEventListener("click", processCheckout);
+        });
+      </script>
+
+      <script src="script/count.js"></script>
+    </main>
+
+       <footer>
+      <div class="footer-container">
+        <div class="footer-main">
+          <div class="footer-columns">
+            <div class="footer-column">
+              <h3 class="footer-heading">Tổng đài hỗ trợ miễn phí</h3>
+              <div class="support-item">
+                <i class="fas fa-phone-alt"></i>
+                <p>Gọi mua hàng <b>1800.2097</b> <span>(7h30 - 22h00)</span></p>
+              </div>
+              <div class="support-item">
+                <i class="fas fa-headset"></i>
+                <p>Gọi khiếu nại <b>1800.2063</b> <span>(8h00 - 21h30)</span></p>
+              </div>
+              <div class="support-item">
+                <i class="fas fa-tools"></i>
+                <p>Gọi bảo hành <b>1800.2064</b> <span>(8h00 - 21h00)</span></p>
+              </div>
+              
+              <h3 class="footer-heading">Phương thức thanh toán</h3>
+              <div class="payment-methods">
+                <img src="anh/visa.png" alt="Visa">
+                <img src="anh/mastercard.png" alt="Mastercard">
+                <img src="anh/jcb.png" alt="JCB">
+                <img src="anh/momo.png" alt="MoMo">
+                <img src="anh/zalopay.png" alt="ZaloPay">
+              </div>
+              <p class="voucher">(*) Nhận ngay voucher 10%</p>
+            </div>
+            
+            <div class="footer-column">
+              <h3 class="footer-heading">Thông tin và chính sách</h3>
+              <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Mua hàng và thanh toán Online</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Mua hàng trả góp Online</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Chính sách giao hàng</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Trung tâm bảo hành chính hãng</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Quy định về việc sao lưu dữ liệu</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Chính sách đổi trả</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Hướng dẫn mua hàng</a></li>
+              </ul>
+            </div>
+            
+            <div class="footer-column">
+              <h3 class="footer-heading">Dịch vụ và thông tin khác</h3>
+              <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Khách hàng doanh nghiệp (B2B)</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Chính sách bảo mật thông tin cá nhân</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Tuyển dụng</a></li>
+                <li><a href="lienhe.html"><i class="fas fa-chevron-right"></i> Liên hệ hợp tác</a></li>
+                <li><a href="gioithieu.html"><i class="fas fa-chevron-right"></i> Giới thiệu công ty</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Câu hỏi thường gặp</a></li>
+              </ul>
+            </div>
+            
+            <div class="footer-column">
+              <h3 class="footer-heading">Kết nối với NHoM7</h3>
+              <div class="social-connect">
+                <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn tiktok"><i class="fab fa-tiktok"></i></a>
+              </div>
+              
+              <div class="subscribe-box">
+                <h4>Đăng ký nhận tin</h4>
+                <p>Nhận thông tin sản phẩm mới nhất, tin khuyến mãi và nhiều hơn nữa.</p>
+                <div class="subscribe-form">
+                  <input type="email" placeholder="Email của bạn">
+                  <button type="button"><i class="fas fa-paper-plane"></i></button>
+                </div>
+              </div>
+              
+              <div class="app-download">
+                <h4>Tải ứng dụng trên điện thoại</h4>
+                <div class="app-links">
+                  <a href="#"><img src="anh/app-store.png" alt="App Store"></a>
+                  <a href="#"><img src="anh/google-play.png" alt="Google Play"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <div class="copyright">
+            <p>&copy; 2023 NHoM7. Tất cả quyền được bảo lưu.</p>
+          </div>
+          <div class="footer-certifications">
+            <img src="anh/bct-certified.png" alt="Bộ Công Thương">
+            <img src="anh/dmca-protected.png" alt="DMCA Protected">
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      footer {
+        background-color: #f8f9fa;
+        padding: 40px 0 0;
+        margin-top: 40px;
+        border-top: 1px solid #e0e0e0;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      .footer-main {
+        margin-bottom: 30px;
+      }
+
+      .footer-columns {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 30px;
+      }
+
+      .footer-column {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .footer-heading {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .footer-heading::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background-color: #d70018;
+      }
+
+      .support-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .support-item i {
+        color: #d70018;
+        font-size: 16px;
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .support-item p {
+        margin: 0;
+        color: #555;
+        font-size: 14px;
+      }
+
+      .support-item b {
+        color: #d70018;
+        font-weight: 600;
+      }
+
+      .support-item span {
+        color: #777;
+        font-size: 12px;
+      }
+
+      .payment-methods {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .payment-methods img {
+        height: 30px;
+        border-radius: 4px;
+        border: 1px solid #eee;
+      }
+
+      .voucher {
+        color: #d70018;
+        font-weight: 600;
+        font-style: italic;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        color: #555;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+      }
+
+      .footer-links a i {
+        font-size: 10px;
+        margin-right: 8px;
+        color: #d70018;
+      }
+
+      .footer-links a:hover {
+        color: #d70018;
+      }
+
+      .social-connect {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+
+      .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: white;
+        font-size: 18px;
+        transition: all 0.3s;
+      }
+
+      .social-btn.facebook {
+        background-color: #3b5998;
+      }
+
+      .social-btn.youtube {
+        background-color: #ff0000;
+      }
+
+      .social-btn.instagram {
+        background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      }
+
+      .social-btn.tiktok {
+        background-color: #000;
+      }
+
+      .social-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .subscribe-box {
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+      }
+
+      .subscribe-box h4 {
+        font-size: 16px;
+        margin: 0 0 10px;
+        color: #333;
+      }
+
+      .subscribe-box p {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 15px;
+      }
+
+      .subscribe-form {
+        display: flex;
+      }
+
+      .subscribe-form input {
+        flex: 1;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px 0 0 4px;
+        font-size: 14px;
+      }
+
+      .subscribe-form button {
+        background-color: #d70018;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .subscribe-form button:hover {
+        background-color: #c00016;
+      }
+
+      .app-download h4 {
+        font-size: 16px;
+        margin: 0 0 10px;
+        color: #333;
+      }
+
+      .app-links {
+        display: flex;
+        gap: 10px;
+      }
+
+      .app-links img {
+        height: 35px;
+        border-radius: 5px;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #e0e0e0;
+        padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .copyright p {
+        margin: 0;
+        color: #666;
+        font-size: 14px;
+      }
+
+      .footer-certifications {
+        display: flex;
+        gap: 15px;
+      }
+
+      .footer-certifications img {
+        height: 40px;
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .footer-columns {
+          gap: 20px;
+        }
+        
+        .footer-column {
+          flex-basis: calc(50% - 20px);
+          min-width: 200px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+        }
+        
+        .footer-certifications {
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .footer-column {
+          flex-basis: 100%;
+        }
+        
+        .footer-heading {
+          font-size: 16px;
+        }
+      }
+    </style>
+    
+  </body>
+</html>

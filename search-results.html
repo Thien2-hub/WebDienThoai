@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả tìm kiếm - Mobile Shop</title>
+    <link rel="stylesheet" href="style/style_index.css">
+    <link rel="stylesheet" href="style/style_search.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-search">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="anh/logo.png" alt="Logo">
+                    </a>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="giohang.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </a>
+                <a href="taikhoan.html" class="user-icon">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="danhmuc.html">Danh mục</a></li>
+                <li><a href="gioithieu.html">Giới thiệu</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="search-container">
+            <div class="search-header">
+                <h1 id="searchTitle">Kết quả tìm kiếm cho "iphone"</h1>
+                <p id="searchResultsCount" class="search-count">Tìm thấy 1 sản phẩm</p>
+            </div>
+            
+            <div id="searchResults" class="products-grid"></div>
+            
+            <div id="noResults" class="no-results" style="display: none;">
+                <div class="no-results-content">
+                    <i class="fas fa-search"></i>
+                    <h2>Không tìm thấy sản phẩm</h2>
+                    <p>Vui lòng thử lại với từ khóa khác hoặc xem các sản phẩm gợi ý dưới đây</p>
+                    <a href="index.html" class="back-home-btn">Quay lại trang chủ</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Thông tin liên hệ</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận XYZ, TP.HCM</p>
+                <p><i class="fas fa-phone"></i> 0123 456 789</p>
+                <p><i class="fas fa-envelope"></i> info@mobileshop.com</p>
+            </div>
+            <div class="footer-column">
+                <h3>Chính sách</h3>
+                <ul>
+                    <li><a href="#">Chính sách bảo hành</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách vận chuyển</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Hỗ trợ khách hàng</h3>
+                <ul>
+                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Liên hệ hỗ trợ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Theo dõi chúng tôi</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+                <div class="newsletter">
+                    <p>Đăng ký nhận tin để nhận <span>voucher 500.000đ</span></p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Email của bạn">
+                        <button>Đăng ký</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2023 Mobile Shop. Tất cả quyền được bảo lưu.</p>
+        </div>
+    </footer>
+
+    <script src="js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchResults = JSON.parse(localStorage.getItem('searchResults')) || [];
+            const searchTerm = localStorage.getItem('searchTerm') || '';
+            
+            const searchTitle = document.getElementById('searchTitle');
+            searchTitle.textContent = `Kết quả tìm kiếm cho "${searchTerm}"`;
+            
+            const searchResultsCount = document.getElementById('searchResultsCount');
+            searchResultsCount.textContent = `Tìm thấy ${searchResults.length} sản phẩm`;
+            
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = searchTerm;
+            }
+            
+            const searchResultsContainer = document.getElementById('searchResults');
+            const noResults = document.getElementById('noResults');
+            
+            if (searchResults.length > 0) {
+                searchResultsContainer.innerHTML = searchResults.map(product => createProductCard(product)).join('');
+                searchResultsContainer.style.display = 'grid';
+                noResults.style.display = 'none';
+            } else {
+                searchResultsContainer.style.display = 'none';
+                noResults.style.display = 'flex';
+            }
+            
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

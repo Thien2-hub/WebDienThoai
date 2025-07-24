@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style/style_index.css">
+    <link rel="stylesheet" href="style/style_danhmuc.css">
+    <script src="js/search.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/cart.js" defer></script>
+
+    <title>Trang chủ</title>
+</head>
+<body>
+    <Header>
+        <div class="daudo">
+            <div class="dau">
+                <div class="logo">
+                    <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+                </div>
+                <div class="search-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Tìm kiếm ở đây" id="searchInput">
+                        <button id="searchButton">Tìm Kiếm</button>
+                    </div>
+                </div>
+            </div>
+            <div class="giohang_taikhoan">
+                <a href="giohang.html" class="giohang_taikhoan-item">
+                    <div class="giohang-icon">
+                        🛒
+                        <span class="cart-count">0</span>
+                    </div>
+                    <p>Giỏ Hàng</p>
+                </a>
+        
+                <a href="taikhoan.html" class="giohang_taikhoan-item">
+                    <img id="userAvatar" class="user-avatar" src="anh/avt_trang.png" alt="Avatar" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; margin-right: 8px;">
+                    <p id="usernameDisplay">Tài khoản</p>
+                </a>
+            </div>
+        </div>
+    </Header>
+    <div class="gachtrang">
+        <nav class="trangchu_danhmuc_gioithieu">
+            <a href="index.html" class="trangchu_danhmuc_gioithieu-item active">Trang Chủ</a>
+            <a href="danhmuc.html" class="trangchu_danhmuc_gioithieu-item">Danh Mục</a>
+            <a href="gioithieu.html" class="trangchu_danhmuc_gioithieu-item">Giới Thiệu</a>
+            <span class="underline1"></span>
+        </nav>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuItems = document.querySelectorAll(".trangchu_danhmuc_gioithieu-item");
+            const underline = document.querySelector(".underline1");
+
+            function moveUnderline(element) {
+                underline.style.width = `${element.offsetWidth}px`;
+                underline.style.left = `${element.offsetLeft}px`;
+            }
+
+            const activeItem = document.querySelector(".trangchu_danhmuc_gioithieu-item.active");
+            if (activeItem) {
+                moveUnderline(activeItem);
+            }
+
+            menuItems.forEach(item => {
+                item.addEventListener("click", function (e) {
+                    if (this.getAttribute("href") === "#") {
+                        e.preventDefault(); 
+                    }
+
+                    menuItems.forEach(i => i.classList.remove("active"));
+                    this.classList.add("active");
+                    moveUnderline(this);
+                });
+            });
+        });
+document.getElementById("searchButton").addEventListener("click", function() {
+    handleSearch();
+});
+
+document.getElementById("searchInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        handleSearch();
+    }
+});
+
+function handleSearch() {
+    let searchValue = document.getElementById("searchInput").value.trim();
+    if (searchValue) {
+        window.location.href = `timkiem.html?q=${encodeURIComponent(searchValue)}`;
+    } else {
+        alert("Vui lòng nhập từ khóa tìm kiếm!");
+    }
+}
+    </script>
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide active">
+                <img src="anh/banner1.jpg" alt="Banner 1">
+            
+            </div>
+            <div class="slide">
+                <img src="anh/banner2.jpg" alt="Banner 2">
+            
+            </div>
+            <div class="slide">
+                <img src="anh/banner3.jpg" alt="Banner 3">
+            </div>
+        </div>
+        <button class="slider-button prev">❮</button>
+        <button class="slider-button next">❯</button>
+        <div class="dots-container">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+        </div>
+    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("DOM đã tải xong, bắt đầu kiểm tra...");
+        
+       function checkLoginStatus() {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    const username = localStorage.getItem("username");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isLoggedIn = loggedInUser || username || (user && user.isLoggedIn);
+    console.log("Trạng thái đăng nhập:", isLoggedIn ? "Đã đăng nhập" : "Chưa đăng nhập");
+    return isLoggedIn;
+}
+        
+        function updateProductLinks() {
+            const isLoggedIn = checkLoginStatus();
+            const productLinks = document.querySelectorAll('a[href^="thongtinsanpham.html"]');
+            console.log("Số liên kết sản phẩm tìm thấy:", productLinks.length);
+            
+            if (!isLoggedIn) {
+                productLinks.forEach(link => {
+                    const currentHref = link.getAttribute('href');
+                    const newHref = currentHref.replace('thongtinsanpham.html', 'thongtinsanpham_cdn.html');
+                    link.setAttribute('href', newHref);
+                    console.log("Đã cập nhật liên kết:", currentHref, "->", newHref);
+                });
+            }
+        }
+        
+        function updateCartLink() {
+            const isLoggedIn = checkLoginStatus();
+            const cartLink = document.querySelector('a[href="giohang.html"]');
+            console.log("Liên kết giỏ hàng:", cartLink ? "Tìm thấy" : "Không tìm thấy");
+            
+            if (cartLink && !isLoggedIn) {
+                cartLink.setAttribute('href', 'dangnhap.html?redirect=giohang.html');
+                console.log("Đã cập nhật liên kết giỏ hàng");
+            }
+        }
+        
+        function updateCartButtons() {
+            const isLoggedIn = checkLoginStatus();
+            const cartButtons = document.querySelectorAll('.cart-button');
+            console.log("Số nút thêm vào giỏ hàng tìm thấy:", cartButtons.length);
+            
+            if (!isLoggedIn) {
+                cartButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        console.log("Đã nhấn nút thêm vào giỏ hàng");
+                        e.preventDefault();
+                        window.location.href = 'dangnhap.html?redirect=index.html';
+                    });
+                });
+            }
+        }
+        
+        try {
+            console.log("Bắt đầu cập nhật liên kết sản phẩm");
+            updateProductLinks();
+            
+            console.log("Bắt đầu cập nhật liên kết giỏ hàng");
+            updateCartLink();
+            
+            console.log("Bắt đầu cập nhật nút thêm vào giỏ hàng");
+            updateCartButtons();
+            
+            console.log("Hoàn tất cập nhật");
+        } catch (error) {
+            console.error("Lỗi khi cập nhật:", error);
+        }
+    });
+</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll(".slide");
+            const dots = document.querySelectorAll(".dot");
+            const totalSlides = slides.length;
+            
+            function showSlide(index) {
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+                
+                slides.forEach(slide => slide.classList.remove("active"));
+                dots.forEach(dot => dot.classList.remove("active"));
+                
+                slides[index].classList.add("active");
+                dots[index].classList.add("active");
+                currentSlide = index;
+            }
+            
+            document.querySelector(".prev").addEventListener("click", () => {
+                showSlide(currentSlide - 1);
+            });
+            
+            document.querySelector(".next").addEventListener("click", () => {
+                showSlide(currentSlide + 1);
+            });
+            
+            dots.forEach(dot => {
+                dot.addEventListener("click", function() {
+                    const slideIndex = parseInt(this.getAttribute("data-index"));
+                    showSlide(slideIndex);
+                });
+            });
+            
+            setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+        });
+    </script>
+<div class="gachduoi2">
+    <h2 class="title">SẢN PHẨM MỚI</h2>
+</div>
+<div class="banchay banchay-new">
+    <div class="product-list">
+        <div class="product-card new">
+            <span class="discount-label">-10%</span>
+            <span class="new-label">NEW</span>
+            <a href="thongtinsanpham.html?id=1">
+                <img src="anh/ip15pl.png" alt="iPhone 15 Plus">
+                <div class="product-name">IPHONE 15 PLUS</div>
+                <div class="product-price">
+                    17.990.000 <span class="old-price">23.290.000</span>
+                </div>
+                <div class="stars">★★★★★</div>
+            </a>
+            <button class="cart-button" 
+                data-id="1" 
+                data-name="IPHONE 15 PLUS" 
+                data-price="17990000" 
+                data-image="anh/ip15pl.png"
+                onclick="redirectToLogin()">
+                🛒 Thêm vào giỏ hàng
+            </button>
+        </div>
+
+        <div class="product-card new">
+            <span class="discount-label">-20%</span>
+            <span class="new-label">NEW</span>
+            <a href="thongtinsanpham.html?id=2">
+                <img src="anh/samsung-galaxy-s23-ultra.jpg" alt="Samsung Galaxy S23">
+                <div class="product-name">SAMSUNG GALAXY S23</div>
+                <div class="product-price">
+                    15.990.000 <span class="old-price">19.990.000</span>
+                </div>
+                <div class="stars">★★★★☆</div>
+            </a>
+            <button class="cart-button" 
+                data-id="2" 
+                data-name="SAMSUNG GALAXY S23" 
+                data-price="15990000" 
+                data-image="anh/samsung-galaxy-s23-ultra.jpg"
+                onclick="redirectToLogin()">
+                🛒 Thêm vào giỏ hàng
+            </button>
+        </div>
+
+        <div class="product-card new">
+            <span class="discount-label">-15%</span>
+            <span class="new-label">NEW</span>
+            <a href="thongtinsanpham.html?id=3">
+                <img src="anh/oppo-find-x6.jpg" alt="OPPO FIND X5 PRO">
+                <div class="product-name">OPPO FIND X5 PRO</div>
+                <div class="product-price">
+                    13.990.000 <span class="old-price">16.990.000</span>
+                </div>
+                <div class="stars">★★★★☆</div>
+            </a>
+            <button class="cart-button" 
+                data-id="3" 
+                data-name="OPPO FIND X5 PRO" 
+                data-price="13990000" 
+                data-image="anh/oppo-find-x6.jpg"
+                onclick="redirectToLogin()">
+                🛒 Thêm vào giỏ hàng
+            </button>
+        </div>
+
+        <div class="product-card new">
+            <span class="discount-label">-15%</span>
+            <span class="new-label">NEW</span>
+            <a href="thongtinsanpham.html?id=4">
+                <img src="anh/xiaomi14.jpg" alt="XIAOMI 13 PRO">
+                <div class="product-name">XIAOMI 13 PRO</div>
+                <div class="product-price">
+                    12.990.000 <span class="old-price">15.990.000</span>
+                </div>
+                <div class="stars">★★★★☆</div>
+            </a>
+            <button class="cart-button" 
+                data-id="4" 
+                data-name="XIAOMI 13 PRO" 
+                data-price="12990000" 
+                data-image="anh/xiaomi14.jpg"
+                onclick="redirectToLogin()">
+                🛒 Thêm vào giỏ hàng
+            </button>
+        </div>
+    </div>
+</div>
+    <div class="gachduoi2">
+        <h2 class="title">GIẢM GIÁ</h2>
+        <div class="discount-banner">
+            <span class="flash-sale">FLASH SALE</span>
+            <div class="countdown" id="countdown">
+                Kết thúc sau: <span id="hours">12</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+            </div>
+        </div>
+    </div>
+    <div class="banchay banchay-discount">
+        <div class="product-list">
+            <div class="product-card discount">
+                <span class="discount-label">-33%</span>
+                <a href="thongtinsanpham.html?id=5">
+                    <img src="anh/vivo-v27.jpg" alt="VIVO V27">
+                    <div class="product-name">VIVO V27</div>
+                    <div class="product-price">
+                        9.990.000 <span class="old-price">14.990.000</span>
+                    </div>
+                    <div class="stars">★★★★☆</div>
+                </a>
+                <button class="cart-button" 
+                    data-id="5" 
+                    data-name="VIVO V27" 
+                    data-price="9990000" 
+                    data-image="anh/vivo-v27.jpg">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </div>
+
+            <div class="product-card discount">
+                <span class="discount-label">-40%</span>
+                <a href="thongtinsanpham.html?id=6">
+                    <img src="anh/oppo-reno-8t.jpg" alt="OPPO RENO 8T">
+                    <div class="product-name">OPPO RENO 8T</div>
+                    <div class="product-price">
+                        5.990.000 <span class="old-price">9.990.000</span>
+                    </div>
+                    <div class="stars">★★★★☆</div>
+                </a>
+                <button class="cart-button" 
+                    data-id="6" 
+                    data-name="OPPO RENO 8T" 
+                    data-price="5990000" 
+                    data-image="anh/oppo-reno-8t.jpg">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </div>
+
+            <div class="product-card discount">
+                <span class="discount-label">-33%</span>
+                <a href="thongtinsanpham.html?id=7">
+                    <img src="anh/samsung-galaxy-a64.jpg" alt="SAMSUNG GALAXY A54">
+                    <div class="product-name">SAMSUNG GALAXY A54</div>
+                    <div class="product-price">
+                        7.990.000 <span class="old-price">11.990.000</span>
+                    </div>
+                    <div class="stars">★★★★☆</div>
+                </a>
+                <button class="cart-button" 
+                    data-id="7" 
+                    data-name="SAMSUNG GALAXY A54" 
+                    data-price="7990000" 
+                    data-image="anh/samsung-galaxy-a64.jpg">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </div>
+
+            <div class="product-card discount">
+                <span class="discount-label">-43%</span>
+                <a href="thongtinsanpham.html?id=8">
+                    <img src="anh/xiaomi-note12.jpg" alt="XIAOMI REDMI NOTE 12">
+                    <div class="product-name">XIAOMI REDMI NOTE 12</div>
+                    <div class="product-price">
+                        3.990.000 <span class="old-price">6.990.000</span>
+                    </div>
+                    <div class="stars">★★★★☆</div>
+                </a>
+                <button class="cart-button" 
+                    data-id="8" 
+                    data-name="XIAOMI REDMI NOTE 12" 
+                    data-price="3990000" 
+                    data-image="anh/xiaomi-note12.jpg">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="gachduoi2">
+        <h2 class="title">ƯU ĐÃI</h2>
+        <div class="promotion-banner">
+            <span class="promotion-text">MUA ĐIỆN THOẠI - NHẬN QUÀ TẶNG</span>
+        </div>
+    </div>
+    <div class="banchay banchay-promotion">
+        <div class="product-list">
+            <div class="product-card promotion">
+                <span class="discount-label">-13%</span>
+                <span class="gift-label">🎁</span>
+                <a href="thongtinsanpham.html?id=9">
+                    <img src="anh/ip15pl.png" alt="IPHONE 14 PRO MAX">
+                    <div class="product-name">IPHONE 14 PRO MAX</div>
+                    <div class="product-price">
+                        25.990.000 <span class="old-price">29.990.000</span>
+                    </div>
+                  <div class="product-gift" 
+                  data-gift="Tai nghe AirPods 2 chính hãng, bảo hành 12 tháng"
+                  data-gift-img="anh/airpods2.jpg" > Tặng tai nghe AirPods 2</div>
+                    <div class="stars">★★★★★</div>
+                </a>
+                <button class="cart-button" 
+                    data-id="9" 
+                    data-name="IPHONE 14 PRO MAX" 
+                    data-price="25990000" 
+                    data-gift="Tai nghe AirPods 2 chính hãng, bảo hành 12 tháng"
+                    data-gift-img="anh/airpods2.jpg"
+                    data-image="anh/ip15pl.png">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </div>
+
+            <div class="product-card promotion">
+                <span class="discount-label">-10%</span>
+                <span class="gift-label">🎁</span>
+                <a href="thongtinsanpham.html?id=10">
+                    <img src="anh/samsung-galaxy-z.jpg" alt="SAMSUNG GALAXY Z FOLD 5">
+                    <div class="product-name">SAMSUNG GALAXY Z FOLD 5</div>
+                    <div class="product-price">
+                        32.990.000 <span class="old-price">36.990.000</span>
+                    </div>
+                    <div class="product-gift">Tặng Galaxy Watch 6</div>
+                    <div class="stars">★★★★★</div>
+                </a>
+                <button class="cart-button" 
+                    data-id="10" 
+                    data-name="SAMSUNG GALAXY Z FOLD 5" 
+                    data-price="32990000" 
+                    data-image="anh/samsung-galaxy-z.jpg">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </div>
+
+            <div class="product-card promotion">
+                <span class="discount-label">-8%</span>
+                <span class="gift-label">🎁</span>
+                <a href="thongtinsanpham.html?id=11">
+                    <img src="anh/oppo-find-13.jpg" alt="OPPO FIND N3">
+                    <div class="product-name">OPPO FIND N3</div>
+                    <div class="product-price">
+                        22.990.000 <span class="old-price">24.990.000</span>
+                    </div>
+                    <div class="product-gift">Tặng OPPO Watch</div>
+                    <div class="stars">★★★★☆</div>
+                </a>
+                <button class="cart-button" 
+                    data-id="11" 
+                    data-name="OPPO FIND N3" 
+                    data-price="22990000" 
+                    data-image="anh/oppo-find-13.jpg">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </div>
+
+            <div class="product-card promotion">
+                <span class="discount-label">-12%</span>
+                <span class="gift-label">🎁</span>
+                <a href="thongtinsanpham.html?id=12">
+                    <img src="anh/xiaomi-13-pro.jpg" alt="XIAOMI 13T PRO">
+                    <div class="product-name">XIAOMI 13T PRO</div>
+                    <div class="product-price">
+                        14.990.000 <span class="old-price">16.990.000</span>
+                    </div>
+                    <div class="product-gift">Tặng Mi Band 8</div>
+                    <div class="stars">★★★★☆</div>
+                </a>
+                <button class="cart-button" 
+                    data-id="12" 
+                    data-name="XIAOMI 13T PRO" 
+                    data-price="14990000" 
+                    data-image="anh/xiaomi-13-pro.jpg">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="chafooter">
+            <div class="chafooter1">
+                <div class="footer1">
+                    <div class="footer-column">
+                        <h3 class="h3_footer">Tổng đài hỗ trợ miễn phí</h3>
+                        <p>Gọi mua hàng <b>1800.2097</b> (7h30 - 22h00)</p>
+                        <p>Gọi khiếu nại <b>1800.2063</b> (8h00 - 21h30)</p>
+                        <p>Gọi bảo hành <b>1800.2064</b> (8h00 - 21h00)</p>
+                        <h3 class="h3_footer">Phương thức thanh toán</h3>
+                        <p class="voucher">(*) Nhận ngay voucher 10%</p>
+                    </div>
+            
+                    <div class="footer-column">
+                        <h3 class="h3_footer">Thông tin và chính sách</h3>
+                        <a href="#">Mua hàng và thanh toán Online</a>
+                        <a href="#">Mua hàng trả góp Online</a>
+                        <a href="#">Chính sách giao hàng</a>
+                        <a href="#">Trung tâm bảo hành chính hãng</a>
+                        <a href="#">Quy định về việc sao lưu dữ liệu</a>
+                    </div>
+            
+                    <div class="footer-column">
+                        <h3 class="h3_footer">Dịch vụ và thông tin khác</h3>
+                        <a href="#">Khách hàng doanh nghiệp</a>
+                        <a href="#">Ưu đãi thanh toán</a>
+                        <a href="#">Quy chế hoạt động</a>
+                        <a href="#">Chính sách Bảo hành</a>
+                        <a href="#">Liên hệ hợp tác kinh doanh</a>
+                    </div>
+            
+                    <div class="footer-column">
+                        <h3 class="h3_footer">Kết nối với chúng tôi</h3>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon">Facebook</a>
+                            <a href="#" class="social-icon">Instagram</a>
+                            <a href="#" class="social-icon">YouTube</a>
+                            <a href="#" class="social-icon">TikTok</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function updateCountdown() {
+                const now = new Date();
+                const hours = 23 - now.getHours();
+                const minutes = 59 - now.getMinutes();
+                const seconds = 59 - now.getSeconds();
+                
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+            
+            setInterval(updateCountdown, 1000);
+            updateCountdown(); 
+            function addToCart(id, name, price, image) {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                
+                const existingItem = cart.find(item => item.id === id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: id,
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: 1
+                    });
+                }
+                
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartCount();
+                
+                alert(`Đã thêm ${name} vào giỏ hàng!`);
+            }
+
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const count = cart.reduce((total, item) => total + item.quantity, 0);
+                
+                const cartCountElement = document.querySelector(".cart-count");
+                if (cartCountElement) {
+                    cartCountElement.textContent = count;
+                }
+            }
+
+            function updateUserInfo() {
+                const loggedInUser = localStorage.getItem("loggedInUser");
+                const usernameDisplay = document.getElementById("usernameDisplay");
+                const userAvatar = document.getElementById("userAvatar");
+                
+                if (loggedInUser) {
+                    if (usernameDisplay) {
+                        usernameDisplay.textContent = loggedInUser;
+                    }
+                    
+                    if (userAvatar) {
+                        let userData = JSON.parse(localStorage.getItem(`userData_${loggedInUser}`)) || {
+                            avatar: "anh/avatar.png"
+                        };
+                        userAvatar.src = userData.avatar;
+                    }
+                }
+            }
+
+            document.querySelectorAll(".cart-button").forEach(button => {
+                button.addEventListener("click", function() {
+                    const productId = this.dataset.id;
+                    const productName = this.dataset.name;
+                    const productPrice = parseInt(this.dataset.price);
+                    const productImage = this.dataset.image;
+                    
+                    addToCart(productId, productName, productPrice, productImage);
+                });
+            });
+
+            updateUserInfo();
+            updateCartCount();
+        });
+    </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.product-gift').forEach(function(gift) {
+        gift.style.cursor = "pointer";
+        gift.addEventListener('click', function(e) {
+            const info = this.getAttribute('data-gift') || this.textContent;
+            alert("Thông tin quà tặng:\n" + info);
+        });
+    });
+    
+});
+
+</script>
+<div id="gift-popup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:#fff; padding:24px; border-radius:8px; min-width:300px; text-align:center; position:relative;">
+    <img id="gift-popup-img" src="" alt="Quà tặng" style="max-width:120px; margin-bottom:12px;">
+    <div id="gift-popup-info" style="margin-bottom:16px;"></div>
+    <button id="add-gift-to-cart" style="background:#4caf50; color:#fff; border:none; padding:8px 24px; border-radius:4px; cursor:pointer;">Thêm quà vào giỏ hàng</button>
+    <button onclick="closeGiftPopup()" style="margin-left:8px; padding:8px 24px; background:#eee; color:#333; border:none; border-radius:4px; cursor:pointer;">Đóng</button>
+  </div>
+</div>
+<script>
+function closeGiftPopup() {
+    document.getElementById('gift-popup').style.display = 'none';
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    let currentGift = null;
+
+    document.querySelectorAll('.product-gift').forEach(function(gift) {
+        gift.style.cursor = "pointer";
+        gift.addEventListener('click', function(e) {
+            const info = this.getAttribute('data-gift') || this.textContent;
+            const img = this.getAttribute('data-gift-img') || '';
+            currentGift = {
+                name: info,
+                image: img
+            };
+            document.getElementById('gift-popup-info').textContent = info;
+            document.getElementById('gift-popup-img').src = img;
+            document.getElementById('gift-popup').style.display = 'flex';
+        });
+    });
+
+    document.getElementById('add-gift-to-cart').addEventListener('click', function() {
+        if (!currentGift) return;
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.push({
+            id: "gift-" + Date.now(),
+            name: currentGift.name,
+            price: 0,
+            image: currentGift.image,
+            quantity: 1,
+            isGift: true
+        });
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        let history = JSON.parse(localStorage.getItem("orderHistory")) || [];
+        history.push({
+            id: "gift-" + Date.now(),
+            name: currentGift.name,
+            image: currentGift.image,
+            date: new Date().toLocaleString(),
+            isGift: true
+        });
+        localStorage.setItem("orderHistory", JSON.stringify(history));
+
+        alert("Đã thêm quà vào giỏ hàng và lịch sử đơn hàng!");
+        closeGiftPopup();
+
+        if (typeof updateCartCount === "function") updateCartCount();
+    });
+});
+</script>
+
+
+
+</body>
+</html>

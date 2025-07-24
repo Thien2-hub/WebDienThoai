@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin cá nhân</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style/style_taikhoan.css">
+    <script defer src="script.js"></script>
+    
+</head>
+<body>
+    <Header>
+        <div class="daudo">
+            <div class="dau">
+                <div class="logo">
+                    <a id="lam" href="index.html">NH<span class="chu_o">o</span>M7</a>
+                </div>
+                <div class="search-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Tìm kiếm ở đây" id="searchInput">
+                        <button id="searchButton">Tìm Kiếm</button>
+                    </div>
+                </div>
+            
+                <script>
+                    document.getElementById("searchButton").addEventListener("click", function() {
+                        let searchValue = document.getElementById("searchInput").value;
+                        alert("Bạn đã tìm kiếm: " + searchValue);
+                    });
+                </script>
+            </div>
+            <div class="giohang_taikhoan">
+                <a href="giohang.html" class="giohang_taikhoan-item">
+                    <div class="giohang-icon">
+                        🛒
+                        <span class="cart-count">0</span>
+                    </div>
+                    <p>Giỏ Hàng</p>
+                </a>
+        
+                <a href="taikhoan.html" class="giohang_taikhoan-item">
+                    <img id="userAvatar" class="user-avatar" src="anh/avt_trang.png" alt="Avatar">
+                    <p id="usernameDisplay">Tài khoản</p>
+                </a>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </Header>
+    <main>
+        <div class="breadcrumb" style="font-family: 'Inter', sans-serif; margin-top: 20px; margin-left: 10%; padding-bottom: 1%;">
+            <a href="" style="font-size: 28px; padding-right: 10px; color: black;">THÔNG TIN CÁ NHÂN</a> <a href="index.html" style="color: rgba(0, 0, 0, 0.388); font-size: 10px;">TRANG CHỦ</a> / <span style="color: black; font-weight: bold; font-size: 12px;">THÔNG TIN CÁ NHÂN</span>
+        </div>
+        <div class="bodytt">
+            <div class="container">
+                <aside class="sidebar">
+                    <div class="profile-card">
+                        <img id="avatar" src="anh/black15.jpg" alt="Avatar" class="avatar">
+                        <h3 id="user-name">Tên người dùng</h3>
+                        <p id="user-phone">Số điện thoại</p>
+                        <!-- <a href="#">Xem hồ sơ</a> -->
+                        <!-- <div class="promotion">
+                            <p>Quý khách chưa là thành viên tại FPT Shop</p>
+                            <p>Quan tâm Zalo FPT Shop để kích hoạt điểm thưởng</p>
+                            <button class="btn">Quan tâm ngay</button>
+                        </div> -->
+                    </div>
+                    <nav class="menu">
+                        <ul>
+                            <li><a href="donhang.html">Đơn hàng của tôi</a></li>
+                            <li><a href="#" id="logout">Đăng xuất</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+                <main class="content">
+                    <div class="profile-info">
+                        <img id="profile-avatar" src="anh/avt_trang.png" alt="Avatar" class="profile-avatar">
+                        <div class="info">
+                            <p><strong>Họ và tên: </strong><span id="name">Tên người dùng</span></p> <br>
+                            <p><strong>Số điện thoại:</strong> <span id="phone">Số điện thoại</span></p> <br>
+                            <p><strong>Email:</strong> <span id="email">Email</span></p> <br>
+                            <p><strong>Địa chỉ:</strong> <span id="address">Chưa có</span></p> <br>
+                            <p><strong>Giới tính:</strong> <span id="gender">Không xác định</span></p> <br> <br> <br>
+                            <button id="edit-btn" class="btn">Chỉnh sửa thông tin</button>         
+                        </div>
+                        
+                    </div>
+                </main>
+            </div>
+        
+            <div id="edit-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Chỉnh sửa thông tin</h2>
+                    <label>Họ và tên: <input type="text" id="edit-name"></label>
+                    <label>Số điện thoại: <input type="text" id="edit-phone"></label>
+                    <label>Email: <input type="email" id="edit-email"></label>
+                    <label>Địa chỉ: <input type="text" id="edit-address"></label>
+                    <label>Giới tính: <input type="text" id="edit-gender"></label>
+                    <div class="upload-container">
+                        <label for="avatar-upload">Chọn ảnh đại diện</label>
+                        <input type="file" id="avatar-upload" accept="image/*">
+                    </div>
+                    
+                    <button id="save-btn" class="btn">Lưu thay đổi</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    let loggedInUser = localStorage.getItem("loggedInUser");
+    if (!loggedInUser) {
+        window.location.href = "dangnhap.html";
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let userData = users.find(user => user.username === loggedInUser);
+    if (!userData) {
+        window.location.href = "dangnhap.html";
+        return;
+    }
+
+    document.getElementById("name").innerText = userData.username;
+    document.getElementById("phone").innerText = userData.sdt;
+    document.getElementById("email").innerText = userData.email;
+    document.getElementById("address").innerText = userData.address || "Chưa có";
+    document.getElementById("gender").innerText = userData.gender || "Không xác định";
+    document.getElementById("user-name").innerText = userData.username;
+    document.getElementById("user-phone").innerText = userData.sdt;
+    document.getElementById("avatar").src = userData.avatar || "avatar.png";
+    document.getElementById("profile-avatar").src = userData.avatar || "avatar.png";
+
+    document.getElementById("edit-btn").addEventListener("click", function () {
+        document.getElementById("edit-name").value = userData.username;
+        document.getElementById("edit-phone").value = userData.sdt;
+        document.getElementById("edit-email").value = userData.email;
+        document.getElementById("edit-address").value = userData.address || "";
+        document.getElementById("edit-gender").value = userData.gender || "";
+        document.getElementById("edit-modal").style.display = "block";
+    });
+
+    document.getElementById("save-btn").addEventListener("click", function () {
+    let newUsername = document.getElementById("edit-name").value.trim();
+    let newPhone = document.getElementById("edit-phone").value.trim();
+    let newEmail = document.getElementById("edit-email").value.trim();
+    let newAddress = document.getElementById("edit-address").value.trim();
+    let newGender = document.getElementById("edit-gender").value.trim();
+
+    if (users.some(u => u.username === newUsername && u.username !== userData.username)) {
+        alert("Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.");
+        return;
+    }
+
+    if (users.some(u => u.email === newEmail && u.email !== userData.email)) {
+        alert("Email đã được sử dụng. Vui lòng chọn email khác.");
+        return;
+    }
+
+    let phoneRegex = /^[0-9]+$/;
+    if (!phoneRegex.test(newPhone)) {
+        alert("Số điện thoại không hợp lệ! Vui lòng chỉ nhập số.");
+        return;
+    }
+
+    let oldAvatar = userData.avatar || "avatar.png";
+
+    userData.username = newUsername;
+    userData.sdt = newPhone;
+    userData.email = newEmail;
+    userData.address = newAddress;
+    userData.gender = newGender;
+    userData.avatar = oldAvatar; 
+
+    let updatedUsers = users.map(user => (user.username === loggedInUser ? userData : user));
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    if (newUsername !== loggedInUser) {
+        localStorage.setItem("loggedInUser", newUsername);
+    }
+
+    alert("Cập nhật thông tin thành công!");
+    location.reload();
+});
+
+
+    document.querySelector(".close").addEventListener("click", function () {
+        document.getElementById("edit-modal").style.display = "none";
+    });
+
+    document.getElementById("logout").addEventListener("click", function () {
+         localStorage.removeItem("loggedInUser");
+        alert("👋 Đã đăng xuất!");
+       window.location.href = "dangnhap.html";
+     });
+});
+
+
+    </script>
+    <script src="script/count.js"></script>
+</body>
+</html>

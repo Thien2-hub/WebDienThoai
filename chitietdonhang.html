@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết đơn hàng - NHoM7</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style/style_donhang.css" />
+    <link rel="stylesheet" href="style/style_chitietdonhang.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="daudo">
+        <div class="dau">
+          <div class="logo">
+            <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+          </div>
+          <div class="search-container">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Tìm kiếm ở đây"
+                id="searchInput"
+              />
+              <button id="searchButton">Tìm Kiếm</button>
+            </div>
+          </div>
+          <div class="icon">
+            <a href="giohang.html" style="position: relative">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cart-count"></span>
+            </a>
+            <a href="taikhoan.html" id="avatar-link">
+              <img
+                id="avatar-img"
+                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                alt="avatar"
+                style="
+                  width: 22px;
+                  height: 22px;
+                  border-radius: 50%;
+                  vertical-align: middle;
+                "
+              />
+            </a>
+            <span id="usernameDisplay">Tài khoản</span>
+          </div>
+        </div>
+        <div class="menu">
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="sanpham.html">Sản phẩm</a></li>
+            <li><a href="gioithieu.html">Giới thiệu</a></li>
+            <li><a href="lienhe.html">Liên hệ</a></li>
+            <li id="order-history-link" style="display: none">
+              <a href="donhang.html">Đơn hàng</a>
+            </li>
+            <li id="logout-link" style="display: none">
+              <a href="#" onclick="logout()">Đăng xuất</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="order-detail-container">
+        <h1 class="order-detail-title">Chi tiết đơn hàng</h1>
+
+        <div id="order-detail-content">
+          <div class="loading">Đang tải thông tin đơn hàng...</div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>Về chúng tôi</h3>
+          <p>
+            NHoM7 Shop - Cửa hàng điện thoại uy tín, chất lượng hàng đầu Việt
+            Nam.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Liên hệ</h3>
+          <p>Địa chỉ: 123 Đường ABC, Quận XYZ, TP.HCM</p>
+          <p>Điện thoại: 0123 456 789</p>
+          <p>Email: info@nhom7shop.com</p>
+        </div>
+        <div class="footer-section">
+          <h3>Theo dõi chúng tôi</h3>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 NHoM7 Shop. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get("id");
+
+        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+        const order = orders.find((o) => o.id === orderId);
+
+        const detailDiv = document.getElementById("order-detail-content");
+
+        if (!order) {
+          detailDiv.innerHTML = "<p>Không tìm thấy đơn hàng.</p>";
+          return;
+        }
+
+        detailDiv.innerHTML = `
+        <h2>Mã đơn hàng: ${order.id}</h2>
+        <p><b>Trạng thái:</b> <span style="color:${
+          order.status === "Đã hủy" ? "red" : "#333"
+        }">${order.status}</span></p>
+        <p><b>Ngày đặt:</b> ${order.date || order.orderDate}</p>
+        <p><b>Người nhận:</b> ${order.fullname}</p>
+        <p><b>Địa chỉ:</b> ${order.address}</p>
+        <p><b>Số điện thoại:</b> ${order.phone}</p>
+        <h3>Sản phẩm:</h3>
+        <ul>
+            ${order.items
+              .map(
+                (item) => `
+                <li>${item.quantity} x ${item.name} (${item.storage || ""})</li>
+            `
+              )
+              .join("")}
+        </ul>
+        <p><b>Tổng tiền:</b> ${(
+          order.totalAmount || order.total
+        ).toLocaleString()} VND</p>
+    `;
+      });
+    </script>
+    <script src="js/order-detail.js"></script>
+    <script>
+      function logout() {
+        localStorage.removeItem("user");
+        window.location.href = "index.html";
+      }
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+
+        let orderCount = 0;
+        if (user.username) {
+          orderCount = orders.filter(
+            (o) => o.username === user.username
+          ).length;
+        }
+
+        document.getElementById("cart-count").textContent =
+          orderCount > 0 ? orderCount : "";
+
+        const avatarUrl = user.avatar || "anh/avatar.png";
+        document.getElementById("avatar-img").src = avatarUrl;
+
+        if (user.username) {
+          document.getElementById("usernameDisplay").textContent =
+            user.username;
+        }
+      });
+    </script>
+  </body>
+</html>

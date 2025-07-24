@@ -1,0 +1,156 @@
+<header>
+  <div class="daudo">
+    <div class="dau">
+      <div class="logo">
+        <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+      </div>
+      <div class="search-container">
+        <div class="search-box">
+          <span class="search-icon"><i class="fas fa-search"></i></span>
+          <input
+            type="text"
+            placeholder="Tìm kiếm sản phẩm..."
+            id="searchInput"
+          />
+          <button id="searchButton">Tìm Kiếm</button>
+        </div>
+      </div>
+      <div class="icon">
+        <a href="giohang.html" title="Giỏ hàng">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge" id="cartCount">0</span>
+        </a>
+        <div class="user-menu">
+          <a href="taikhoan.html" title="Tài khoản">
+            <i class="fas fa-user"></i>
+          </a>
+          <span id="usernameDisplay">Tài khoản</span>
+          <div class="dropdown-menu">
+            <a href="taikhoan.html"
+              ><i class="fas fa-user-circle"></i> Thông tin tài khoản</a
+            >
+            <a href="donhang.html"
+              ><i class="fas fa-shopping-bag"></i> Đơn hàng của tôi</a
+            >
+            <a href="#" id="logout-btn"
+              ><i class="fas fa-sign-out-alt"></i> Đăng xuất</a
+            >
+          </div>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <div class="menu">
+      <ul>
+        <li class="active"><a href="index.html">Trang chủ</a></li>
+        <li>
+          <a href="sanpham.html">Sản phẩm</a>
+          <ul>
+            <li><a href="sanpham.html?brand=apple">Apple</a></li>
+            <li><a href="sanpham.html?brand=samsung">Samsung</a></li>
+            <li><a href="sanpham.html?brand=xiaomi">Xiaomi</a></li>
+            <li><a href="sanpham.html?brand=oppo">OPPO</a></li>
+            <li><a href="sanpham.html?brand=vivo">Vivo</a></li>
+          </ul>
+        </li>
+        <li><a href="khuyenmai.html">Khuyến mãi</a></li>
+        <li><a href="gioithieu.html">Giới thiệu</a></li>
+        <li><a href="lienhe.html">Liên hệ</a></li>
+        <li id="login-link"><a href="dangnhap.html">Đăng nhập</a></li>
+        <li id="register-link"><a href="dangky.html">Đăng ký</a></li>
+        <li id="order-history-link" style="display: none">
+          <a href="donhang.html">Đơn hàng</a>
+        </li>
+        <li id="logout-link" style="display: none">
+          <a href="#" onclick="logout()">Đăng xuất</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="hamburger-menu" id="hamburgerMenu">
+  <div class="hamburger-icon">
+    <i class="fas fa-bars"></i>
+  </div>
+</div>
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <h3>Menu</h3>
+    <button class="close-menu" id="closeMenu">×</button>
+  </div>
+  <ul class="mobile-menu-items">
+    <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+    <li><a href="sanpham.html"><i class="fas fa-mobile-alt"></i> Sản phẩm</a></li>
+    <li><a href="khuyenmai.html"><i class="fas fa-tags"></i> Khuyến mãi</a></li>
+    <li><a href="gioithieu.html"><i class="fas fa-info-circle"></i> Giới thiệu</a></li>
+    <li><a href="lienhe.html"><i class="fas fa-envelope"></i> Liên hệ</a></li>
+    <li><a href="donhang.html"><i class="fas fa-shopping-bag"></i> Đơn hàng</a></li>
+    <li id="loginMobile"><a href="dangnhap.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+    <li id="registerMobile"><a href="dangky.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+    <li id="logoutMobile" style="display: none;"><a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+  </ul>
+</div>
+
+<script>
+  document
+    .getElementById("mobileMenuBtn")
+    .addEventListener("click", function () {
+      document.querySelector(".menu").classList.toggle("active");
+    });
+
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const count = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+    document.getElementById("cartCount").textContent = count;
+
+    if (count === 0) {
+      document.getElementById("cartCount").style.display = "none";
+    } else {
+      document.getElementById("cartCount").style.display = "flex";
+    }
+  }
+
+  function checkLoginStatus() {
+    const user =
+      JSON.parse(localStorage.getItem("user")) ||
+      JSON.parse(localStorage.getItem("loggedInUser"));
+
+    if (user && user.isLoggedIn) {
+      document.getElementById("usernameDisplay").textContent =
+        user.username || "Tài khoản";
+      document.getElementById("login-link").style.display = "none";
+      document.getElementById("register-link").style.display = "none";
+      document.getElementById("order-history-link").style.display = "block";
+      document.getElementById("logout-link").style.display = "block";
+    } else {
+      document.getElementById("usernameDisplay").textContent = "Tài khoản";
+      document.getElementById("login-link").style.display = "block";
+      document.getElementById("register-link").style.display = "block";
+      document.getElementById("order-history-link").style.display = "none";
+      document.getElementById("logout-link").style.display = "none";
+    }
+  }
+
+  document.getElementById("logout-btn").addEventListener("click", function (e) {
+    e.preventDefault();
+    logout();
+  });
+
+  function logout() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "index.html";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    updateCartCount();
+    checkLoginStatus();
+  });
+</script>
+

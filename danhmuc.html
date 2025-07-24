@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style/style_danhmuc.css" />
+    <title>Danh mục sản phẩm</title>
+  </head>
+  <body>
+    <header>
+      <div class="daudo">
+        <div class="dau">
+          <div class="logo">
+            <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+          </div>
+          <div class="search-container">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Tìm kiếm ở đây"
+                id="searchInput"
+              />
+              <button id="searchButton">Tìm Kiếm</button>
+            </div>
+          </div>
+
+          <script>
+            document
+              .getElementById("searchButton")
+              .addEventListener("click", function () {
+                let searchValue = document.getElementById("searchInput").value;
+                filterProducts();
+              });
+          </script>
+        </div>
+        <div class="giohang_taikhoan">
+          <a href="giohang.html" class="giohang_taikhoan-item">
+            <div class="giohang-icon">
+              🛒
+              <span class="cart-count">0</span>
+            </div>
+            <p>Giỏ Hàng</p>
+          </a>
+
+          <a href="taikhoan.html" class="giohang_taikhoan-item">
+            <img
+              id="userAvatar"
+              class="user-avatar"
+              src="anh/avt_trang.png"
+              alt="Avatar"
+              style="
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #fff;
+                margin-right: 8px;
+              "
+            />
+            <p id="usernameDisplay">Tài khoản</p>
+          </a>
+        </div>
+      </div>
+    </header>
+    <div class="gachtrang">
+      <nav class="trangchu_danhmuc_gioithieu">
+        <a href="index.html" class="trangchu_danhmuc_gioithieu-item"
+          >Trang Chủ</a
+        >
+        <a href="danhmuc.html" class="trangchu_danhmuc_gioithieu-item active"
+          >Danh Mục</a
+        >
+        <a href="gioithieu.html" class="trangchu_danhmuc_gioithieu-item"
+          >Giới Thiệu</a
+        >
+        <span class="underline1"></span>
+      </nav>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuItems = document.querySelectorAll(
+          ".trangchu_danhmuc_gioithieu-item"
+        );
+        const underline = document.querySelector(".underline1");
+
+        function moveUnderline(element) {
+          underline.style.width = `${element.offsetWidth}px`;
+          underline.style.left = `${element.offsetLeft}px`;
+        }
+
+        const activeItem = document.querySelector(
+          ".trangchu_danhmuc_gioithieu-item.active"
+        );
+        if (activeItem) {
+          moveUnderline(activeItem);
+        }
+
+        menuItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            if (this.getAttribute("href") === "#") {
+              e.preventDefault();
+            }
+
+            menuItems.forEach((i) => i.classList.remove("active"));
+            this.classList.add("active");
+            moveUnderline(this);
+          });
+        });
+      });
+    </script>
+    
+    <main>
+      <div class="container">
+        <div class="sidebar">
+          <h3>Thương hiệu</h3>
+          <div class="filter-group" id="brand-filters">
+            <label
+              ><input
+                type="checkbox"
+                value="all"
+                class="brand-filter"
+                checked
+              />
+              Tất cả</label
+            >
+            <label
+              ><input type="checkbox" value="IPHONE" class="brand-filter" />
+              IPHONE</label
+            >
+            <label
+              ><input type="checkbox" value="SAMSUNG" class="brand-filter" />
+              SAMSUNG</label
+            >
+            <label
+              ><input type="checkbox" value="VIVO" class="brand-filter" />
+              VIVO</label
+            >
+            <label
+              ><input type="checkbox" value="OPPO" class="brand-filter" />
+              OPPO</label
+            >
+            <label
+              ><input type="checkbox" value="XIAOMI" class="brand-filter" />
+              XIAOMI</label
+            >
+            <label
+              ><input type="checkbox" value="REALME" class="brand-filter" />
+              REALME</label
+            >
+            <label
+              ><input type="checkbox" value="NOKIA" class="brand-filter" />
+              NOKIA</label
+            >
+            <label
+              ><input type="checkbox" value="HONOR" class="brand-filter" />
+              HONOR</label
+            >
+          </div>
+
+          <h3>Thể Loại</h3>
+          <div class="filter-group" id="category-filters">
+            <label
+              ><input
+                type="checkbox"
+                value="all"
+                class="category-filter"
+                checked
+              />
+              Tất cả</label
+            >
+            <label
+              ><input type="checkbox" value="new" class="category-filter" />
+              Mới</label
+            >
+            <label
+              ><input type="checkbox" value="old" class="category-filter" />
+              Cũ</label
+            >
+          </div>
+
+          <h3>Giá</h3>
+          <div class="filter-group" id="price-filters">
+            <label
+              ><input
+                type="checkbox"
+                value="all"
+                class="price-filter"
+                checked
+              />
+              Tất cả</label
+            >
+            <label
+              ><input type="checkbox" value="0-2000000" class="price-filter" />
+              Dưới 2 triệu</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                value="2000000-4000000"
+                class="price-filter"
+              />
+              Từ 2 - 4 triệu</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                value="4000000-7000000"
+                class="price-filter"
+              />
+              Từ 4 - 7 triệu</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                value="7000000-13000000"
+                class="price-filter"
+              />
+              Từ 7 - 13 triệu</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                value="13000000-20000000"
+                class="price-filter"
+              />
+              Từ 13 - 20 triệu</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                value="20000000-999999999"
+                class="price-filter"
+              />
+              Trên 20 triệu</label
+            >
+          </div>
+
+          <h3>Hoặc nhập giá bạn muốn:</h3>
+          <div class="price-range">
+            <label for="min-price">Từ:</label>
+            <input
+              type="number"
+              id="min-price"
+              placeholder="Nhập giá"
+              min="0"
+            />
+            <label for="max-price">Đến:</label>
+            <input
+              type="number"
+              id="max-price"
+              placeholder="Nhập giá"
+              min="0"
+            />
+            <button id="apply-price-range" class="apply-btn">Áp dụng</button>
+          </div>
+          <div class="nencuoiduoinhaptien"></div>
+
+          <button id="reset-filters" class="reset-btn">Đặt lại bộ lọc</button>
+        </div>
+
+        <div class="main-content">
+          <div class="sort-container">
+            <label for="sort">Sắp xếp theo:</label>
+            <select id="sort">
+              <option value="default">Mặc định</option>
+              <option value="low-to-high">Giá: Thấp đến cao</option>
+              <option value="high-to-low">Giá: Cao đến thấp</option>
+              <option value="name-asc">Tên: A-Z</option>
+              <option value="name-desc">Tên: Z-A</option>
+            </select>
+          </div>
+
+          <div class="product-list" id="product-container">
+            <div class="loading">Đang tải sản phẩm...</div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        let allProducts = [];
+        document.addEventListener("DOMContentLoaded", function () {
+          updateUserInfo();
+          loadProducts();
+          setupFilterEvents();
+          document
+            .getElementById("sort")
+            .addEventListener("change", filterProducts);
+          document
+            .getElementById("searchButton")
+            .addEventListener("click", function () {
+              filterProducts();
+            });
+
+          document
+            .getElementById("searchInput")
+            .addEventListener("keypress", function (e) {
+              if (e.key === "Enter") {
+                filterProducts();
+              }
+            });
+
+          document
+            .getElementById("apply-price-range")
+            .addEventListener("click", function () {
+              document.querySelectorAll(".price-filter").forEach((checkbox) => {
+                checkbox.checked = false;
+              });
+
+              filterProducts();
+            });
+
+          document
+            .getElementById("reset-filters")
+            .addEventListener("click", resetFilters);
+        });
+
+        function updateUserInfo() {
+          const loggedInUser = localStorage.getItem("loggedInUser");
+          const usernameDisplay = document.getElementById("usernameDisplay");
+          const userAvatar = document.getElementById("userAvatar");
+
+          if (loggedInUser) {
+            if (usernameDisplay) {
+              usernameDisplay.textContent = loggedInUser;
+            }
+
+            if (userAvatar) {
+              let userData = JSON.parse(
+                localStorage.getItem(`userData_${loggedInUser}`)
+              ) || {
+                avatar: "anh/avatar.png",
+              };
+              userAvatar.src = userData.avatar;
+            }
+          }
+
+          updateCartCount();
+        }
+
+        function updateCartCount() {
+          const cart = JSON.parse(localStorage.getItem("cart")) || [];
+          const count = cart.reduce((total, item) => total + item.quantity, 0);
+
+          const cartCountElement = document.querySelector(".cart-count");
+          if (cartCountElement) {
+            cartCountElement.textContent = count;
+          }
+        }
+
+        function loadProducts() {
+          
+          allProducts = [
+            {
+              id: 1,
+              name: "IPHONE 15 PLUS",
+              price: 17990000,
+              oldPrice: 23290000,
+              image: "anh/ip15pl.png",
+              brand: "IPHONE",
+              category: "new",
+              discount: 10,
+              isNew: true,
+              rating: 5,
+            },
+            {
+              id: 2,
+              name: "SAMSUNG GALAXY S23",
+              price: 15990000,
+              oldPrice: 19990000,
+              image: "anh/samsung-galaxy-s23-ultra.jpg",
+              brand: "SAMSUNG",
+              category: "new",
+              discount: 20,
+              isNew: true,
+              rating: 4,
+            },
+            {
+              id: 3,
+              name: "OPPO FIND X5 PRO",
+              price: 13990000,
+              oldPrice: 16990000,
+              image: "anh/oppo-find-x6.jpg",
+              brand: "OPPO",
+              category: "new",
+              discount: 15,
+              isNew: true,
+              rating: 4,
+            },
+            {
+              id: 4,
+              name: "XIAOMI 13 PRO",
+              price: 12990000,
+              oldPrice: 15990000,
+              image: "anh/xiaomi-13-pro.jpg",
+              brand: "XIAOMI",
+              category: "new",
+              discount: 15,
+              isNew: true,
+              rating: 4,
+            },
+            {
+              id: 5,
+              name: "VIVO X90 PRO",
+              price: 14990000,
+              oldPrice: 17990000,
+              image: "anh/vivo-x90.jpg",
+              brand: "VIVO",
+              category: "new",
+              discount: 15,
+              isNew: true,
+              rating: 4,
+            },
+            {
+              id: 6,
+              name: "IPHONE 14 PRO",
+              price: 14990000,
+              oldPrice: 18990000,
+              image: "anh/ip15pl.png",
+              brand: "IPHONE",
+              category: "old",
+              discount: 20,
+              isNew: false,
+              rating: 5,
+            },
+            {
+              id: 7,
+              name: "SAMSUNG GALAXY S22",
+              price: 9990000,
+              oldPrice: 12990000,
+              image: "anh/samsung-galaxy-z.jpg",
+              brand: "SAMSUNG",
+              category: "old",
+              discount: 20,
+              isNew: false,
+              rating: 4,
+            },
+            {
+              id: 8,
+              name: "NOKIA G22",
+              price: 3990000,
+              oldPrice: 4990000,
+              image: "anh/nokia,.jpg",
+              brand: "NOKIA",
+              category: "new",
+              discount: 20,
+              isNew: true,
+              rating: 3,
+            },
+            {
+              id: 9,
+              name: "REALME GT NEO 5",
+              price: 8990000,
+              oldPrice: 10990000,
+              image: "anh/remi-gt.jpg",
+              brand: "REALME",
+              category: "new",
+              discount: 15,
+              isNew: true,
+              rating: 4,
+            },
+            {
+              id: 10,
+              name: "HONOR 90",
+              price: 7990000,
+              oldPrice: 9990000,
+              image: "anh/horo90.jpg",
+              brand: "HONOR",
+              category: "new",
+              discount: 20,
+              isNew: true,
+              rating: 4,
+            },
+            {
+              id: 11,
+              name: "XIAOMI REDMI NOTE 12",
+              price: 3990000,
+              oldPrice: 4990000,
+              image: "anh/xiaomi-note12.jpg",
+              brand: "XIAOMI",
+              category: "new",
+              discount: 20,
+              isNew: true,
+              rating: 4,
+            },
+            {
+              id: 12,
+              name: "OPPO RENO 8T",
+              price: 5990000,
+              oldPrice: 7990000,
+              image: "anh/oppo-reno-8t.jpg",
+              brand: "OPPO",
+              category: "new",
+              discount: 25,
+              isNew: true,
+              rating: 4,
+            },
+          ];
+
+          displayProducts(allProducts);
+        }
+
+        function displayProducts(products) {
+          const container = document.getElementById("product-container");
+          container.innerHTML = "";
+
+          if (products.length === 0) {
+            container.innerHTML = `
+                        <div class="no-products">
+                            <p>Không tìm thấy sản phẩm phù hợp với bộ lọc.</p>
+                        </div>
+                    `;
+            return;
+          }
+
+          products.forEach((product) => {
+            const productCard = document.createElement("div");
+            productCard.className = "product-card";
+            productCard.dataset.price = product.price;
+            productCard.dataset.name = product.name;
+
+            productCard.innerHTML = `
+                        ${
+                          product.discount
+                            ? `<span class="discount-label">-${product.discount}%</span>`
+                            : ""
+                        }
+                        ${
+                          product.isNew
+                            ? '<span class="new-label">NEW</span>'
+                            : ""
+                        }
+                        <a href="thongtinsanpham.html?id=${product.id}">
+                            <img src="${product.image}" alt="${product.name}">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-price">
+                                ${product.price.toLocaleString()} 
+                                ${
+                                  product.oldPrice
+                                    ? `<span class="old-price">${product.oldPrice.toLocaleString()}</span>`
+                                    : ""
+                                }
+                            </div>
+                            <div class="stars">${"★".repeat(
+                              product.rating
+                            )}${"☆".repeat(5 - product.rating)}</div>
+                        </a>
+                        <button class="cart-button" 
+                            data-id="${product.id}" 
+                            data-name="${product.name}" 
+                            data-price="${product.price}" 
+                            data-image="${product.image}">
+                            🛒 Thêm vào giỏ hàng
+                        </button>
+                    `;
+
+            container.appendChild(productCard);
+          });
+
+          document.querySelectorAll(".cart-button").forEach((button) => {
+            button.addEventListener("click", function () {
+              const productId = this.dataset.id;
+              const productName = this.dataset.name;
+              const productPrice = parseInt(this.dataset.price);
+              const productImage = this.dataset.image;
+
+              addToCart(productId, productName, productPrice, productImage);
+            });
+          });
+        }
+
+        function addToCart(id, name, price, image) {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+          const existingItem = cart.find((item) => item.id === id);
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cart.push({
+              id: id,
+              name: name,
+              price: price,
+              image: image,
+              quantity: 1,
+            });
+          }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
+          updateCartCount();
+
+          alert(`Đã thêm ${name} vào giỏ hàng!`);
+        }
+
+        function setupFilterEvents() {
+          document.querySelectorAll(".brand-filter").forEach((checkbox) => {
+            checkbox.addEventListener("change", function () {
+              if (this.value === "all" && this.checked) {
+                document
+                  .querySelectorAll('.brand-filter:not([value="all"])')
+                  .forEach((cb) => {
+                    cb.checked = false;
+                  });
+              }
+              else if (this.value !== "all" && this.checked) {
+                document.querySelector(
+                  '.brand-filter[value="all"]'
+                ).checked = false;
+              }
+
+              const anyBrandChecked = Array.from(
+                document.querySelectorAll('.brand-filter:not([value="all"])')
+              ).some((cb) => cb.checked);
+              if (!anyBrandChecked) {
+                document.querySelector(
+                  '.brand-filter[value="all"]'
+                ).checked = true;
+              }
+
+              filterProducts();
+            });
+          });
+
+          document.querySelectorAll(".category-filter").forEach((checkbox) => {
+            checkbox.addEventListener("change", function () {
+              if (this.value === "all" && this.checked) {
+                document
+                  .querySelectorAll('.category-filter:not([value="all"])')
+                  .forEach((cb) => {
+                    cb.checked = false;
+                  });
+              } else if (this.value !== "all" && this.checked) {
+                document.querySelector(
+                  '.category-filter[value="all"]'
+                ).checked = false;
+              }
+
+              const anyCategoryChecked = Array.from(
+                document.querySelectorAll('.category-filter:not([value="all"])')
+              ).some((cb) => cb.checked);
+              if (!anyCategoryChecked) {
+                document.querySelector(
+                  '.category-filter[value="all"]'
+                ).checked = true;
+              }
+
+              filterProducts();
+            });
+          });
+
+          document.querySelectorAll(".price-filter").forEach((checkbox) => {
+            checkbox.addEventListener("change", function () {
+              if (this.value === "all" && this.checked) {
+                document
+                  .querySelectorAll('.price-filter:not([value="all"])')
+                  .forEach((cb) => {
+                    cb.checked = false;
+                  });
+              } else if (this.value !== "all" && this.checked) {
+                document.querySelector(
+                  '.price-filter[value="all"]'
+                ).checked = false;
+              }
+
+              const anyPriceChecked = Array.from(
+                document.querySelectorAll('.price-filter:not([value="all"])')
+              ).some((cb) => cb.checked);
+              if (!anyPriceChecked) {
+                document.querySelector(
+                  '.price-filter[value="all"]'
+                ).checked = true;
+              }
+
+              filterProducts();
+            });
+          });
+        }
+
+        // Hàm lọc sản phẩm
+        function filterProducts() {
+          let filteredProducts = [...allProducts];
+
+          const selectedBrands = Array.from(
+            document.querySelectorAll(".brand-filter:checked")
+          ).map((cb) => cb.value);
+          if (!selectedBrands.includes("all")) {
+            filteredProducts = filteredProducts.filter((product) =>
+              selectedBrands.includes(product.brand)
+            );
+          }
+
+          const selectedCategories = Array.from(
+            document.querySelectorAll(".category-filter:checked")
+          ).map((cb) => cb.value);
+          if (!selectedCategories.includes("all")) {
+            filteredProducts = filteredProducts.filter((product) =>
+              selectedCategories.includes(product.category)
+            );
+          }
+
+          const selectedPriceRanges = Array.from(
+            document.querySelectorAll(".price-filter:checked")
+          ).map((cb) => cb.value);
+          if (!selectedPriceRanges.includes("all")) {
+            filteredProducts = filteredProducts.filter((product) => {
+              return selectedPriceRanges.some((range) => {
+                const [min, max] = range.split("-").map(Number);
+                return product.price >= min && product.price <= max;
+              });
+            });
+          }
+
+          const minPrice = document.getElementById("min-price").value;
+          const maxPrice = document.getElementById("max-price").value;
+
+          if (minPrice !== "" || maxPrice !== "") {
+            filteredProducts = filteredProducts.filter((product) => {
+              if (minPrice !== "" && maxPrice !== "") {
+                return (
+                  product.price >= Number(minPrice) &&
+                  product.price <= Number(maxPrice)
+                );
+              } else if (minPrice !== "") {
+                return product.price >= Number(minPrice);
+              } else if (maxPrice !== "") {
+                return product.price <= Number(maxPrice);
+              }
+              return true;
+            });
+          }
+
+          const searchKeyword = document
+            .getElementById("searchInput")
+            .value.trim()
+            .toLowerCase();
+          if (searchKeyword) {
+            filteredProducts = filteredProducts.filter(
+              (product) =>
+                product.name.toLowerCase().includes(searchKeyword) ||
+                product.brand.toLowerCase().includes(searchKeyword)
+            );
+          }
+
+          const sortOption = document.getElementById("sort").value;
+          switch (sortOption) {
+            case "low-to-high":
+              filteredProducts.sort((a, b) => a.price - b.price);
+              break;
+            case "high-to-low":
+              filteredProducts.sort((a, b) => b.price - a.price);
+              break;
+            case "name-asc":
+              filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+              break;
+            case "name-desc":
+              filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+              break;
+            default:
+              break;
+          }
+
+          displayProducts(filteredProducts);
+        }
+
+        function resetFilters() {
+          document
+            .querySelectorAll(".brand-filter, .category-filter, .price-filter")
+            .forEach((checkbox) => {
+              checkbox.checked = checkbox.value === "all";
+            });
+
+          document.getElementById("min-price").value = "";
+          document.getElementById("max-price").value = "";
+          document.getElementById("searchInput").value = "";
+          document.getElementById("sort").value = "default";
+          displayProducts(allProducts);
+        }
+      </script>
+    </main>
+
+    <footer>
+      <div class="chafooter">
+        <div class="chafooter1">
+          <div class="footer1">
+            <div class="footer-column">
+              <h3>Tổng đài hỗ trợ miễn phí</h3>
+              <p>Gọi mua hàng <b>1800.2097</b> (7h30 - 22h00)</p>
+              <p>Gọi khiếu nại <b>1800.2063</b> (8h00 - 21h30)</p>
+              <p>Gọi bảo hành <b>1800.2064</b> (8h00 - 21h00)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script/count.js"></script>
+  </body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style/style_thanhtoan.css" />
+    <title>Thanh Toán</title>
+  </head>
+  <body>
+    <header>
+      <div class="daudo">
+        <div class="dau">
+          <div class="logo">
+            <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+          </div>
+          <div class="search-container">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Tìm kiếm ở đây"
+                id="searchInput"
+              />
+              <button id="searchButton">Tìm Kiếm</button>
+            </div>
+          </div>
+        </div>
+        <div class="giohang_taikhoan">
+          <a href="giohang.html" class="giohang_taikhoan-item">
+            <div class="giohang-icon">
+              🛒
+              <span class="cart-count">0</span>
+            </div>
+            <p>Giỏ Hàng</p>
+          </a>
+
+          <a href="taikhoan.html" class="giohang_taikhoan-item">
+            <img
+              id="userAvatar"
+              class="user-avatar"
+              src="anh/avatar.png"
+              alt="Avatar"
+            />
+            <p id="usernameDisplay">Tài khoản</p>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div
+        class="breadcrumb"
+        style="font-family: 'Inter', sans-serif; margin-top: 20px"
+      >
+        <a
+          href=""
+          style="
+            font-size: 32px;
+            padding-right: 10px;
+            color: black;
+            font-weight: bold;
+          "
+          >THANH TOÁN</a
+        >
+        <a
+          href="index.html"
+          style="color: rgba(0, 0, 0, 0.388); font-size: 12px"
+          >TRANG CHỦ</a
+        >
+        /
+        <span style="color: black; font-weight: bold; font-size: 14px"
+          >THANH TOÁN</span
+        >
+      </div>
+
+      <div class="checkout-container">
+        <div class="checkout-form">
+          <h2>Thông tin thanh toán</h2>
+          <form id="checkout-form" class="checkout-form">
+            <div class="form-group">
+              <label for="fullname">Họ và tên:</label>
+              <input type="text" id="fullname" name="fullname" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Số điện thoại:</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                pattern="[0-9]{10}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="address">Địa chỉ:</label>
+              <textarea id="address" name="address" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="payment">Phương thức thanh toán:</label>
+              <select id="payment" name="payment" required>
+                <option value="">-- Chọn phương thức thanh toán --</option>
+                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                <option value="bank">Chuyển khoản ngân hàng</option>
+                <option value="momo">Ví điện tử MoMo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="note">Ghi chú:</label>
+              <textarea id="note" name="note"></textarea>
+            </div>
+            <div class="form-group checkbox">
+              <input
+                type="checkbox"
+                id="agreeTerms"
+                name="agreeTerms"
+                required
+              />
+              <label for="agreeTerms"
+                >Tôi đồng ý với <a href="#">điều khoản và điều kiện</a></label
+              >
+            </div>
+            <button type="button" id="placeOrder" disabled>ĐẶT HÀNG</button>
+          </form>
+        </div>
+
+        <div class="order-summary">
+          <h2>Đơn hàng của bạn</h2>
+          <div id="order-items">
+
+          </div>
+          <div class="total">
+            <p>Tổng cộng: <span id="total-price">0</span> VND</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {
+          alert("Vui lòng đăng nhập để tiếp tục thanh toán!");
+          window.location.href = "dangnhap.html?redirect=thanhtoan.html";
+          return;
+        }
+
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let currentUser = users.find((user) => user.username === loggedInUser);
+
+        if (currentUser) {
+          document.getElementById("fullname").value =
+            currentUser.fullname || "";
+          document.getElementById("phone").value = currentUser.sdt || "";
+          document.getElementById("email").value = currentUser.email || "";
+          document.getElementById("address").value = currentUser.address || "";
+        }
+
+        loadOrder();
+      });
+
+      function loadOrder() {
+        let cart = JSON.parse(localStorage.getItem("checkoutCart")) || [];
+
+        if (cart.length === 0) {
+          document.getElementById("order-items").innerHTML =
+            "<p>Không có sản phẩm nào trong giỏ hàng.</p>";
+          document.getElementById("placeOrder").disabled = true;
+          return;
+        }
+
+        let totalPrice = 0;
+        let orderContainer = document.getElementById("order-items");
+        orderContainer.innerHTML = "";
+
+        cart.forEach((product) => {
+          totalPrice += product.price * product.quantity;
+          orderContainer.innerHTML += `
+                    <div class="order-item">
+                        <img src="${product.image}" alt="${
+            product.name
+          }" width="80">
+                        <div class="item-details">
+                            <p class="product-name">${product.name} - ${
+            product.storage
+          }</p>
+                            <p class="product-color">Màu: ${
+                              product.color || "N/A"
+                            }</p>
+                            <p class="product-price">${
+                              product.quantity
+                            } x ${product.price.toLocaleString()} VND</p>
+                        </div>
+                    </div>
+                `;
+        });
+
+        document.getElementById("total-price").innerText =
+          totalPrice.toLocaleString();
+      }
+
+      document
+        .getElementById("agreeTerms")
+        .addEventListener("change", function () {
+          document.getElementById("placeOrder").disabled = !this.checked;
+        });
+        
+
+      document
+        .getElementById("placeOrder")
+        .addEventListener("click", function () {
+          let cart = JSON.parse(localStorage.getItem("checkoutCart")) || [];
+
+          if (cart.length === 0) {
+            alert("Không có sản phẩm nào trong giỏ hàng!");
+            return;
+          }
+          
+
+          let form = document.getElementById("checkout-form");
+          let formValid = true;
+
+          form.querySelectorAll("[required]").forEach((field) => {
+            if (!field.value.trim()) {
+              formValid = false;
+              field.classList.add("error");
+            } else {
+              field.classList.remove("error");
+            }
+          });
+
+          if (!formValid) {
+            alert("Vui lòng điền đầy đủ thông tin thanh toán!");
+            return;
+          }
+let orderInfo = {
+    id: "DH" + Date.now(), 
+    fullname: document.getElementById("fullname").value,
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+    address: document.getElementById("address").value,
+    payment: document.getElementById("payment").value,
+    note: document.getElementById("note").value,
+    date: new Date().toLocaleString(),
+    status: "Chờ xử lý",
+    items: cart,
+    totalAmount: cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    ),
+    username: localStorage.getItem("loggedInUser")
+};
+
+          let orders = JSON.parse(localStorage.getItem("orders")) || [];
+          orders.push(orderInfo);
+          localStorage.setItem("orders", JSON.stringify(orders));
+          localStorage.removeItem("checkoutCart");
+          let mainCart = JSON.parse(localStorage.getItem("cart")) || [];
+          cart.forEach((checkoutItem) => {
+            mainCart = mainCart.filter(
+              (cartItem) =>
+                !(
+                  cartItem.name === checkoutItem.name &&
+                  cartItem.storage === checkoutItem.storage &&
+                  cartItem.color === checkoutItem.color
+                )
+            );
+          });
+          localStorage.setItem("cart", JSON.stringify(mainCart));
+
+          alert("Đặt hàng thành công!");
+          window.location.href = "donhang.html";
+          
+        });
+    </script>
+    <script src="script/count.js"></script>
+  </body>
+</html>

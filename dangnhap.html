@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style/style_dangnhap.css">
+    <title>Đăng nhập</title>
+</head>
+<body>
+    <Header>
+        <div class="daudo">
+            <div class="dau">
+                <div class="logo">
+                    <a href="trangchu_cdn.html">NH<span class="chu_o">o</span>M7</a>
+                </div>
+                <div class="search-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Tìm kiếm ở đây" id="searchInput">
+                        <button id="searchButton">Tìm Kiếm</button>
+                    </div>
+                </div>     
+                       
+                <script>
+                    document.getElementById("searchButton").addEventListener("click", function() {
+                        let searchValue = document.getElementById("searchInput").value;
+                        alert("Bạn đã tìm kiếm: " + searchValue);
+                    });
+                </script>
+            </div>
+            <div class="giohang_taikhoan">
+                <!-- Biểu tượng giỏ hàng -->
+                <a href="" class="giohang_taikhoan-item">
+                    <div class="giohang-icon">
+                        🛒
+                        <!-- <span class="so2_trendaugiohang">2</span> -->
+                    </div>
+                    <p>Giỏ Hàng</p>
+                </a>
+                <a href="" class="giohang_taikhoan-item">
+                    <img  class="user-avatar" src="anh/avt_trang.png" alt="Avatar">
+                    <p>Tài Khoản</p>
+                </a>
+            </div>
+        </div>
+    </Header>
+    <main>
+        <div>
+            <div class="logo-den">
+                NH<span class="red">o</span>M7
+            </div>
+        </div>
+        <div>
+            <style>
+            </style>
+            <form id="register-form2">
+            <div class="login-container">
+                <div class="input-box"><input type="text" id="username" placeholder="Tên đăng nhập" required></div>
+                <div class="input-box"><input type="password" id="password" placeholder="Mật khẩu" required></div>
+                <div class="links">
+                    <a href="dangky.html">Tạo tài khoản</a> <span class="divider">/</span> 
+                  <div class="form-group">
+    <a href="quenmatkhau.html" class="forgot-password">Quên mật khẩu?</a>
+</div>
+                </div>
+            </div>   
+        </div>
+        <div>
+            <button class="btnDN">Đăng Nhập</button>
+        </div>
+    </form>
+    
+        <div>
+            <div class="separator">
+                <span class="separator-text">HOẶC</span>
+            </div>
+        </div>
+
+        <div class="google-btn-container">
+            <button id="google-signin-btn" class="google-btn">
+                <img src="anh/chplay.png" alt="Google Logo"> <span>Đăng nhập bằng Google</span>
+            </button>
+        </div>
+
+        <div id="g_id_onload"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID"
+             data-callback="handleGoogleSignIn"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin" data-type="standard"></div>
+
+        <script src="script.js"></script>
+        <script src="https://accounts.google.com/gsi/client?onload=onGoogleLibraryLoad" async defer></script>
+
+        <script>
+document.getElementById("register-form2").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    let users = JSON.parse(localStorage.getItem("users") || "[]");
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+        localStorage.setItem("username", username);
+        localStorage.setItem("loggedInUser", username);
+        if (user.avatar) {
+            localStorage.setItem("userAvatar", user.avatar);
+        } else {
+            localStorage.removeItem("userAvatar");
+        }
+        window.location.href = "index.html";
+    } else {
+        alert("Tên đăng nhập hoặc mật khẩu không đúng!");
+    }
+});
+            function handleGoogleSignIn(response) {
+                const responsePayload = parseJwt(response.credential);
+                
+                localStorage.setItem("loggedInUser", responsePayload.name);
+                localStorage.setItem("userEmail", responsePayload.email);
+                localStorage.setItem("userAvatar", responsePayload.picture);
+                
+                window.location.href = "index.html";
+            }
+            
+            function parseJwt(token) {
+                var base64Url = token.split('.')[1];
+                var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                
+                return JSON.parse(jsonPayload);
+            }
+            
+            document.getElementById("google-signin-btn").addEventListener("click", function() {
+                document.querySelector(".g_id_signin div[role=button]").click();
+            });
+        </script>
+        
+    </main>
+    
+    
+
+</body>
+
+</html>

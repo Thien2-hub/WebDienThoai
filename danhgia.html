@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đánh giá sản phẩm - NHoM7</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style/style_header.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      .review-container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 25px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .review-header {
+        margin-bottom: 25px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 15px;
+      }
+
+      .review-header h1 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .review-header p {
+        color: #666;
+        font-size: 16px;
+      }
+
+      .product-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        padding: 15px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+      }
+
+      .product-image {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-right: 20px;
+      }
+
+      .product-details h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .product-details p {
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .product-price {
+        font-weight: bold;
+        color: #d70018;
+        font-size: 18px;
+      }
+
+      .rating-section {
+        margin-bottom: 25px;
+      }
+
+      .rating-section h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .rating-stars {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+      }
+
+      .rating-stars input {
+        display: none;
+      }
+
+      .rating-stars label {
+        cursor: pointer;
+        font-size: 30px;
+        color: #ddd;
+        padding: 0 5px;
+        transition: color 0.2s;
+      }
+
+      .rating-stars label:hover,
+      .rating-stars label:hover ~ label,
+      .rating-stars input:checked ~ label {
+        color: #ffcc00;
+      }
+
+      .rating-text {
+        text-align: center;
+        font-size: 16px;
+        color: #666;
+        margin-top: 10px;
+      }
+
+      .comment-section {
+        margin-bottom: 25px;
+      }
+
+      .comment-section h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .comment-section textarea {
+        width: 100%;
+        min-height: 150px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        resize: vertical;
+        margin-bottom: 15px;
+      }
+
+      .photo-upload {
+        margin-bottom: 25px;
+      }
+
+      .photo-upload h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .upload-area {
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.3s;
+      }
+
+      .upload-area:hover {
+        border-color: #aaa;
+      }
+
+      .upload-area i {
+        font-size: 40px;
+        color: #aaa;
+        margin-bottom: 10px;
+      }
+
+      .upload-area p {
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .upload-area input {
+        display: none;
+      }
+
+      .upload-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .preview-item {
+        position: relative;
+        width: 100px;
+        height: 100px;
+      }
+
+      .preview-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .preview-item .remove-btn {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff4d4d;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .submit-section {
+        text-align: center;
+      }
+
+      .submit-btn {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .submit-btn:hover {
+        background-color: #45a049;
+      }
+
+      .cancel-btn {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-right: 15px;
+        transition: background-color 0.3s;
+      }
+
+      .cancel-btn:hover {
+        background-color: #d32f2f;
+      }
+
+      .success-message {
+        display: none;
+        background-color: #dff0d8;
+        color: #3c763d;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="daudo">
+        <div class="dau">
+          <div class="logo">
+            <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+          </div>
+          <div class="search-container">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Tìm kiếm ở đây"
+                id="searchInput"
+              />
+              <button id="searchButton">Tìm Kiếm</button>
+            </div>
+          </div>
+          <div class="icons">
+            <a href="giohang.html" class="icon-link">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cart-count">0</span>
+            </a>
+            <a href="donhang.html" class="icon-link">
+              <i class="fas fa-box"></i>
+            </a>
+            <a href="#" class="icon-link" id="userIcon">
+              <i class="fas fa-user"></i>
+            </a>
+          </div>
+        </div>
+        <div class="menu">
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="sanpham.html">Sản phẩm</a></li>
+            <li><a href="gioithieu.html">Giới thiệu</a></li>
+            <li><a href="lienhe.html">Liên hệ</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <div class="review-container">
+        <div class="review-header">
+          <h1>Đánh giá sản phẩm</h1>
+          <p>Chia sẻ trải nghiệm của bạn về sản phẩm này</p>
+        </div>
+
+        <div class="product-info" id="product-info">
+          <!-- Thông tin sản phẩm sẽ được thêm vào đây bằng JavaScript -->
+        </div>
+
+        <form id="review-form">
+          <div class="rating-section">
+            <h3>Đánh giá của bạn</h3>
+            <div class="rating-stars">
+              <input type="radio" id="star5" name="rating" value="5" />
+              <label for="star5" title="Tuyệt vời">★</label>
+              <input type="radio" id="star4" name="rating" value="4" />
+              <label for="star4" title="Tốt">★</label>
+              <input type="radio" id="star3" name="rating" value="3" />
+              <label for="star3" title="Bình thường">★</label>
+              <input type="radio" id="star2" name="rating" value="2" />
+              <label for="star2" title="Không tốt">★</label>
+              <input type="radio" id="star1" name="rating" value="1" />
+              <label for="star1" title="Tệ">★</label>
+            </div>
+            <div class="rating-text" id="rating-text">
+              Chọn đánh giá của bạn
+            </div>
+          </div>
+
+          <div class="comment-section">
+            <h3>Nhận xét của bạn</h3>
+            <textarea
+              id="comment"
+              placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="photo-upload">
+            <h3>Thêm hình ảnh (tùy chọn)</h3>
+            <div class="upload-area" id="upload-area">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Kéo và thả hình ảnh vào đây hoặc nhấp để chọn</p>
+              <p class="small">Tối đa 5 hình ảnh, mỗi hình không quá 5MB</p>
+              <input type="file" id="photo-input" accept="image/*" multiple />
+            </div>
+            <div class="upload-preview" id="upload-preview">
+              <!-- Hình ảnh xem trước sẽ được thêm vào đây -->
+            </div>
+          </div>
+
+          <div class="submit-section">
+            <button type="button" class="cancel-btn" id="cancel-btn">
+              Hủy
+            </button>
+            <button type="submit" class="submit-btn">Gửi đánh giá</button>
+          </div>
+
+          <div class="success-message" id="success-message">
+            <i
+              class="fas fa-check-circle"
+              style="font-size: 40px; color: #4caf50; margin-bottom: 15px"
+            ></i>
+            <h3>Cảm ơn bạn đã đánh giá!</h3>
+            <p>Đánh giá của bạn đã được gửi thành công.</p>
+            <button
+              type="button"
+              class="submit-btn"
+              style="margin-top: 15px"
+              id="back-btn"
+            >
+              Quay lại
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <style>
+        .footer-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          gap: 32px;
+          background: #232323;
+          color: #fff;
+          padding: 40px 8vw 24px 8vw;
+          border-radius: 16px 16px 0 0;
+          box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
+        }
+        .footer-section {
+          flex: 1 1 220px;
+          min-width: 220px;
+        }
+        .footer-section h3 {
+          color: #e91e63;
+          margin-bottom: 16px;
+          font-size: 20px;
+          font-weight: 600;
+          letter-spacing: 1px;
+        }
+        .footer-section p {
+          color: #ccc;
+          margin-bottom: 10px;
+          font-size: 15px;
+        }
+        .social-icons {
+          display: flex;
+          gap: 16px;
+          margin-top: 8px;
+        }
+        .social-icons a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 38px;
+          height: 38px;
+          background: #333;
+          border-radius: 50%;
+          color: #fff;
+          font-size: 20px;
+          transition: background 0.2s, color 0.2s, transform 0.2s;
+          box-shadow: 0 2px 8px rgba(233, 30, 99, 0.08);
+        }
+        .social-icons a:hover {
+          background: #e91e63;
+          color: #fff;
+          transform: translateY(-4px) scale(1.08);
+        }
+        .footer-bottom {
+          text-align: center;
+          background: #181818;
+          color: #aaa;
+          padding: 16px 0 0 0;
+          font-size: 15px;
+          border-radius: 0 0 16px 16px;
+          margin-top: -8px;
+        }
+        @media (max-width: 900px) {
+          .footer-container {
+            flex-direction: column;
+            gap: 24px;
+            padding: 32px 4vw 16px 4vw;
+          }
+        }
+      </style>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>Về chúng tôi</h3>
+          <p>NHoM7 - Cung cấp các sản phẩm chất lượng cao với giá cả hợp lý.</p>
+          <p>Đội ngũ hỗ trợ 24/7, giao hàng toàn quốc.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Liên hệ</h3>
+          <p><i class="fas fa-envelope"></i> info@nhom7.com</p>
+          <p><i class="fas fa-phone"></i> 0123 456 789</p>
+          <p>
+            <i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận XYZ, TP.
+            HCM
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Theo dõi chúng tôi</h3>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 NHoM7. Tất cả quyền được bảo lưu.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get("orderId") || null;
+        const productId = urlParams.get("productId") || null;
+        const isLoggedIn =
+          localStorage.getItem("isLoggedIn") === "true" ||
+          localStorage.getItem("loggedInUser") ||
+          JSON.parse(localStorage.getItem("user") || "{}").isLoggedIn;
+
+        const username =
+          localStorage.getItem("username") ||
+          localStorage.getItem("loggedInUser") ||
+          JSON.parse(localStorage.getItem("user") || "{}").username;
+
+        if (!isLoggedIn && !username) {
+          alert("Vui lòng đăng nhập để đánh giá sản phẩm!");
+          window.location.href = "dangnhap.html?redirect=donhang.html";
+          return;
+        }
+
+        const ratingInputs = document.querySelectorAll('input[name="rating"]');
+        const ratingText = document.getElementById("rating-text");
+        const ratingTexts = [
+          "Tệ",
+          "Không tốt",
+          "Bình thường",
+          "Tốt",
+          "Tuyệt vời",
+        ];
+
+        ratingInputs.forEach((input) => {
+          input.addEventListener("change", function () {
+            const value = parseInt(this.value);
+            ratingText.textContent = ratingTexts[value - 1];
+          });
+        });
+
+        const uploadArea = document.getElementById("upload-area");
+        const photoInput = document.getElementById("photo-input");
+        const uploadPreview = document.getElementById("upload-preview");
+
+        uploadArea.addEventListener("click", function () {
+          photoInput.click();
+        });
+
+        uploadArea.addEventListener("dragover", function (e) {
+          e.preventDefault();
+          this.style.borderColor = "#4CAF50";
+          this.style.backgroundColor = "#f8fff8";
+          this.querySelector("i").style.color = "#4CAF50";
+        });
+
+        uploadArea.addEventListener("dragleave", function () {
+          this.style.borderColor = "#ddd";
+          this.style.backgroundColor = "";
+          this.querySelector("i").style.color = "#aaa";
+        });
+
+        uploadArea.addEventListener("drop", function (e) {
+          e.preventDefault();
+          this.style.borderColor = "#ddd";
+          this.style.backgroundColor = "";
+          this.querySelector("i").style.color = "#aaa";
+
+          if (e.dataTransfer.files.length > 0) {
+            handleFiles(e.dataTransfer.files);
+          }
+        });
+
+        photoInput.addEventListener("change", function () {
+          if (this.files.length > 0) {
+            handleFiles(this.files);
+            const notification = document.createElement("div");
+            notification.className = "upload-notification";
+            notification.textContent = `Đã chọn ${this.files.length} hình ảnh`;
+            notification.style.position = "absolute";
+            notification.style.bottom = "10px";
+            notification.style.right = "10px";
+            notification.style.backgroundColor = "#4CAF50";
+            notification.style.color = "white";
+            notification.style.padding = "8px 12px";
+            notification.style.borderRadius = "4px";
+            notification.style.opacity = "0";
+            notification.style.transition = "opacity 0.3s";
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+              notification.style.opacity = "1";
+              setTimeout(() => {
+                notification.style.opacity = "0";
+                setTimeout(() => {
+                  document.body.removeChild(notification);
+                }, 300);
+              }, 2000);
+            }, 100);
+          }
+        });
+
+        function handleFiles(files) {
+          const uploadPreview = document.getElementById("upload-preview");
+          const maxFiles = 5;
+          const maxSize = 5 * 1024 * 1024; 
+
+          const currentFiles = uploadPreview.children.length;
+          const remainingSlots = maxFiles - currentFiles;
+
+          if (remainingSlots <= 0) {
+            alert(`Bạn đã đạt giới hạn tối đa ${maxFiles} hình ảnh!`);
+            return;
+          }
+
+          const filesToProcess = Math.min(remainingSlots, files.length);
+
+          if (files.length > remainingSlots) {
+            alert(`Chỉ ${remainingSlots} hình ảnh đầu tiên sẽ được thêm vào.`);
+          }
+
+          for (let i = 0; i < filesToProcess; i++) {
+            const file = files[i];
+
+            if (file.size > maxSize) {
+              alert(`File "${file.name}" vượt quá kích thước cho phép (5MB)!`);
+              continue;
+            }
+
+            if (!file.type.startsWith("image/")) {
+              alert(`File "${file.name}" không phải là hình ảnh!`);
+              continue;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const previewItem = document.createElement("div");
+              previewItem.className = "preview-item";
+              previewItem.innerHTML = `
+        <div class="preview-image-container">
+          <img src="${e.target.result}" alt="Preview">
+          <div class="preview-overlay">
+            <button type="button" class="remove-btn" title="Xóa hình ảnh">&times;</button>
+          </div>
+        </div>
+      `;
+
+              const imageContainer = previewItem.querySelector(
+                ".preview-image-container"
+              );
+              imageContainer.addEventListener("mouseenter", function () {
+                this.querySelector(".preview-overlay").style.opacity = "1";
+              });
+
+              imageContainer.addEventListener("mouseleave", function () {
+                this.querySelector(".preview-overlay").style.opacity = "0";
+              });
+
+              const removeBtn = previewItem.querySelector(".remove-btn");
+              removeBtn.addEventListener("click", function () {
+                previewItem.classList.add("removing");
+                setTimeout(() => {
+                  previewItem.remove();
+
+                  if (uploadPreview.children.length === 0) {
+                    uploadArea.style.display = "block";
+                  }
+                }, 300);
+              });
+
+              uploadPreview.appendChild(previewItem);
+
+              if (uploadPreview.children.length >= maxFiles) {
+                uploadArea.style.display = "none";
+              }
+            };
+
+            reader.readAsDataURL(file);
+          }
+        }
+
+        const reviewForm = document.getElementById("review-form");
+        reviewForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          submitReview(productId, orderId || "direct-review-" + Date.now());
+        });
+
+        document
+          .getElementById("cancel-btn")
+          .addEventListener("click", function () {
+            if (confirm("Bạn có chắc chắn muốn hủy đánh giá này?")) {
+              window.location.href = orderId
+                ? "chitietdonhang.html?id=" + orderId
+                : "donhang.html";
+            }
+          });
+
+        document
+          .getElementById("back-btn")
+          .addEventListener("click", function () {
+            window.location.href = orderId
+              ? "chitietdonhang.html?id=" + orderId
+              : "donhang.html";
+          });
+      });
+
+      function handleFiles(files) {
+        const uploadPreview = document.getElementById("upload-preview");
+        const maxFiles = 5;
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (uploadPreview.children.length + files.length > maxFiles) {
+          alert(`Bạn chỉ có thể tải lên tối đa ${maxFiles} hình ảnh!`);
+          return;
+        }
+
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+
+          if (file.size > maxSize) {
+            alert(`File "${file.name}" vượt quá kích thước cho phép (5MB)!`);
+            continue;
+          }
+
+          if (!file.type.startsWith("image/")) {
+            alert(`File "${file.name}" không phải là hình ảnh!`);
+            continue;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const previewItem = document.createElement("div");
+            previewItem.className = "preview-item";
+            previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" class="remove-btn">&times;</button>
+                    `;
+
+            const removeBtn = previewItem.querySelector(".remove-btn");
+            removeBtn.addEventListener("click", function () {
+              previewItem.remove();
+            });
+
+            uploadPreview.appendChild(previewItem);
+          };
+
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function submitReview(productId, orderId) {
+        const ratingInputs = document.querySelectorAll('input[name="rating"]');
+        let rating = 0;
+
+        for (const input of ratingInputs) {
+          if (input.checked) {
+            rating = parseInt(input.value);
+            break;
+          }
+        }
+
+        if (rating === 0) {
+          alert("Vui lòng chọn số sao đánh giá!");
+          return;
+        }
+
+        const comment = document.getElementById("comment").value.trim();
+
+        if (!comment) {
+          alert("Vui lòng nhập nội dung đánh giá!");
+          return;
+        }
+
+        const username =
+          localStorage.getItem("username") ||
+          localStorage.getItem("loggedInUser") ||
+          JSON.parse(localStorage.getItem("user") || "{}").username;
+
+        const uploadPreview = document.getElementById("upload-preview");
+        const images = [];
+
+        uploadPreview.querySelectorAll("img").forEach((img) => {
+          images.push(img.src);
+        });
+
+        document.getElementById("review-form").style.display = "none";
+        document.getElementById("success-message").style.display = "block";
+      }
+
+      function updateProductRating(productId, reviews) {
+        const products = JSON.parse(localStorage.getItem("products") || "[]");
+        const productReviews = reviews.filter(
+          (review) => review.productId === productId
+        );
+
+        if (productReviews.length > 0) {
+          const totalRating = productReviews.reduce(
+            (sum, review) => sum + review.rating,
+            0
+          );
+          const averageRating = totalRating / productReviews.length;
+
+          const product = products.find((p) => p.id === productId);
+          if (product) {
+            product.rating = averageRating;
+            product.reviewCount = productReviews.length;
+            localStorage.setItem("products", JSON.stringify(products));
+          }
+        }
+      }
+
+      function updateUserInfo() {
+        const userIcon = document.getElementById("userIcon");
+        const username =
+          localStorage.getItem("username") ||
+          localStorage.getItem("loggedInUser") ||
+          JSON.parse(localStorage.getItem("user") || "{}").username;
+
+        if (username) {
+          userIcon.innerHTML = `
+                    <i class="fas fa-user"></i>
+                    <span>${username}</span>
+                `;
+
+          userIcon.addEventListener("mouseenter", function () {
+            const dropdown = document.createElement("div");
+            dropdown.className = "user-dropdown";
+            dropdown.innerHTML = `
+                        <a href="taikhoan.html">Tài khoản của tôi</a>
+                        <a href="donhang.html">Đơn hàng của tôi</a>
+                        <a href="#" id="logout-btn">Đăng xuất</a>
+                    `;
+
+            this.appendChild(dropdown);
+
+            document
+              .getElementById("logout-btn")
+              .addEventListener("click", function (e) {
+                e.preventDefault();
+                logout();
+              });
+          });
+
+          userIcon.addEventListener("mouseleave", function () {
+            const dropdown = this.querySelector(".user-dropdown");
+            if (dropdown) {
+              dropdown.remove();
+            }
+          });
+        } else {
+          userIcon.innerHTML = `
+                    <i class="fas fa-user"></i>
+                `;
+
+          userIcon.addEventListener("click", function () {
+            window.location.href = "dangnhap.html";
+          });
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("loggedInUser");
+        localStorage.removeItem("user");
+
+        alert("Đăng xuất thành công!");
+        window.location.href = "index.html";
+      }
+
+      function updateCartCount() {
+        const cartCount = document.getElementById("cart-count");
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+        cartCount.textContent = cart.reduce(
+          (total, item) => total + (item.quantity || 1),
+          0
+        );
+      }
+
+      function formatCurrency(amount) {
+        return new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(amount);
+      }
+
+      document
+        .getElementById("searchButton")
+        .addEventListener("click", function () {
+          const searchValue = document
+            .getElementById("searchInput")
+            .value.trim();
+          if (searchValue) {
+            window.location.href = `timkiem.html?q=${encodeURIComponent(
+              searchValue
+            )}`;
+          } else {
+            alert("Vui lòng nhập từ khóa tìm kiếm!");
+          }
+        });
+
+      document
+        .getElementById("searchInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            document.getElementById("searchButton").click();
+          }
+        });
+    </script>
+  </body>
+</html>

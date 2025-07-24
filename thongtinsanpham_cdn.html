@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style/style_thongtinsanpham.css">
+    <title>Thông tin sản phẩm</title>
+</head>
+<body>
+    <Header>
+        <div class="daudo">
+            <div class="dau">
+                <div class="logo">
+                    <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+                </div>
+                <div class="search-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Tìm kiếm ở đây" id="searchInput">
+                        <button id="searchButton">Tìm Kiếm</button>
+                    </div>
+                </div>
+            
+                <script>
+                    document.getElementById("searchButton").addEventListener("click", function() {
+                        let searchValue = document.getElementById("searchInput").value;
+                        alert("Bạn đã tìm kiếm: " + searchValue);
+                    });
+                </script>
+            </div>
+            <div class="giohang_taikhoan">
+                <a href="giohang.html" class="giohang_taikhoan-item">
+                    <!-- <div class="giohang-icon">
+                        🛒
+                        <span id="so2_trendaugiohang">2</span>
+                    </div> -->
+                    <div class="giohang-icon">
+                        🛒
+                        <span class="cart-count">0</span>
+                    </div>
+                    <p>Giỏ Hàng</p>
+                </a>
+                        <!-- <a href="danhnhap.html" class="giohang_taikhoan-item">
+                    <div class="taikhoan-icon">👤</div>
+                    <p id="usernameDisplay">Tài Khoản</p>
+                </a> -->
+                <a href="taikhoan.html" class="giohang_taikhoan-item">
+                    <img id="userAvatar" class="user-avatar" src="anh/avt_trang.png" alt="Avatar">
+                    <p id="usernameDisplay">Tài khoản</p>
+                </a>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </Header>
+    <div class="gachtrang">
+        <nav class="trangchu_danhmuc_gioithieu">
+            <a href="index.html" class="trangchu_danhmuc_gioithieu-item active">Trang Chủ</a>
+            <a href="danhmuc.html" class="trangchu_danhmuc_gioithieu-item ">Danh Mục</a>
+            <a href="gioithieu.html" class="trangchu_danhmuc_gioithieu-item ">Giới Thiệu</a>
+            <span class="underline1"></span>
+        </nav>
+    </div>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuItems = document.querySelectorAll(".trangchu_danhmuc_gioithieu-item");
+        const underline = document.querySelector(".underline1");
+
+        function moveUnderline(element) {
+            underline.style.width = `${element.offsetWidth}px`;
+            underline.style.left = `${element.offsetLeft}px`;
+        }
+
+        const activeItem = document.querySelector(".trangchu_danhmuc_gioithieu-item.active");
+        if (activeItem) {
+            moveUnderline(activeItem);
+        }
+
+        menuItems.forEach(item => {
+            item.addEventListener("click", function (e) {
+                if (this.getAttribute("href") === "#") {
+                    e.preventDefault(); 
+                }
+
+                menuItems.forEach(i => i.classList.remove("active"));
+                this.classList.add("active");
+                moveUnderline(this);
+            });
+        });
+    });
+document.getElementById("searchButton").addEventListener("click", function() {
+    handleSearch();
+});
+
+document.getElementById("searchInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        handleSearch();
+    }
+});
+
+function handleSearch() {
+    let searchValue = document.getElementById("searchInput").value.trim();
+    if (searchValue) {
+        window.location.href = `timkiem.html?q=${encodeURIComponent(searchValue)}`;
+    } else {
+        alert("Vui lòng nhập từ khóa tìm kiếm!");
+    }
+}
+    </script>
+     <main>
+    <div class="product-container">
+        <div class="breadcrumb" style="font-family: 'Inter', sans-serif; margin-top: 20px;">
+            <a href="" style="font-size: 28px; padding-right: 10px; color: black;">THONG TIN SAN PHAM</a> <a href="index.html" style="color: rgba(0, 0, 0, 0.388); font-size: 10px;">TRANG CHỦ</a> / <span style="color: black; font-weight: bold; font-size: 12px;">THÔNG TIN SẢN PHẨM</span>
+        </div>
+        <div class="product">
+            <div class="product-image">
+                <img id="product-img" src="anh/blue15.jpg" alt="Sản phẩm">
+            </div>
+            <div class="product-info">
+                <h1 id="product-name">Tên sản phẩm <span id="storage"></span></h1>
+                <p id="price">0đ</p> <br>
+                <p class="rating">⭐ <strong id="rating-value">5.0</strong> | <a href="#" style="color: blue;"><span id="review-count">0</span> Đánh giá</a> | <a href="#" style="color: blue;"><span id="comment-count">0</span> Bình luận</a></p>
+                
+                <div class="options">
+                    <p><strong>Dung lượng:</strong></p>
+                    <div class="option-group" id="storage-options">
+                    </div>
+                    <p><strong>Màu sắc:</strong></p>
+                    <div class="option-group" id="color-options">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="add-to-cart" onclick="window.location.href='dangnhap.html?redirect=' + encodeURIComponent(window.location.href)">🛒 Thêm vào giỏ hàng</button>
+                    <button class="buy-now" onclick="window.location.href='dangnhap.html?redirect=' + encodeURIComponent(window.location.href)">Mua ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const products = [
+            {
+                id: "1",
+                name: "iPhone 15 Plus",
+                price: 20000000,
+                oldPrice: 23290000,
+                rating: 5.0,
+                reviews: 12,
+                comments: 7,
+                image: "anh/blue15.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 20000000 },
+                    { storage: "256GB", price: 23000000 },
+                    { storage: "512GB", price: 27000000 }
+                ],
+                colorOptions: [
+                    { name: "Xanh Dương", image: "anh/blue15.jpg" },
+                    { name: "Hồng", image: "anh/pink15.jpg" },
+                    { name: "Đen", image: "anh/black15.jpg" },
+                    { name: "Vàng", image: "anh/yellow15.jpg" },
+                    { name: "Xanh Lá", image: "anh/green15.jpg" }
+                ]
+            },
+            {
+                id: "2",
+                name: "Samsung Galaxy S23",
+                price: 15990000,
+                oldPrice: 19990000,
+                rating: 4.8,
+                reviews: 10,
+                comments: 5,
+                image: "anh/samsung-galaxy-s23-ultra.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 15990000 },
+                    { storage: "256GB", price: 17990000 },
+                    { storage: "512GB", price: 19990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/samsung-galaxy-s23-ultra.jpg" },
+                    { name: "Trắng", image: "anh/samsung-galaxy-s23-ultra.jpg" },
+                    { name: "Xanh", image: "anh/samsung-galaxy-s23-ultra.jpg" }
+                ]
+            },
+            {
+                id: "3",
+                name: "OPPO FIND X5 PRO",
+                price: 13990000,
+                oldPrice: 16990000,
+                rating: 4.5,
+                reviews: 8,
+                comments: 4,
+                image: "anh/oppo-find-x6.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 13990000 },
+                    { storage: "256GB", price: 15990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/oppo-find-x6.jpg" },
+                    { name: "Trắng", image: "anh/oppo-find-x6.jpg" }
+                ]
+            },
+            {
+                id: "4",
+                name: "XIAOMI 13 PRO",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/xiaomi14.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/xiaomi14.jpg" },
+                    { name: "Xanh", image: "anh/xiaomi14.jpg" }
+                ]
+            },
+               {
+                id: "5",
+                name: "VIVO V27",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/vivo-v27.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/vivo-v27.jpg" },
+                    { name: "Xanh", image: "anh/vivo-v27.jpg" }
+                ]
+            },
+           {
+                id: "6",
+                name: "Oppo Reno 8T",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/oppo-reno-8t.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/oppo-reno-8t.jpg" },
+                    { name: "Xanh", image: "anh/oppo-reno-8t.jpg" }
+                ]
+            },
+           {
+                id: "7",
+                name: "Samsung Galaxy A54",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/Samsung-galaxy-a64.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/Samsung-galaxy-a64.jpg" },
+                    { name: "Xanh", image: "anh/Samsung-galaxy-a64.jpg" }
+                ]
+            },
+            {
+                id: "8",
+                name: "Xiaomi Redmi Note 12",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/xiaomi-note12.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/xiaomi-note12.jpg" },
+                    { name: "Xanh", image: "anh/xiaomi-note12.jpg" }
+                ]
+            },
+            {
+                id: "9",
+                name: "iPhone 14 Pro",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/ip15pl.png",
+                storageOptions: [
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/ip15pl.png" },
+                    { name: "Xanh", image: "anh/ip15pl.png" }
+                ]
+            },
+            {
+                id: "10",
+                name: "Samsung Galaxy Z Fold 5",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/samsung-galaxy-z.jpg",
+                storageOptions: [   
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/samsung-galaxy-z.jpg" },
+                    { name: "Xanh", image: "anh/samsung-galaxy-z.jpg" }
+                ]
+            },{
+                id: "11",
+                name: "Oppo Find N3",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/oppo-find-13.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/oppo-find-13.jpg" },
+                    { name: "Xanh", image: "anh/oppo-find-13.jpg" }
+                ]
+            },
+            {
+                id: "12",
+                name: "Xiaomi 13T Pro",
+                price: 12990000,
+                oldPrice: 15990000,
+                rating: 4.6,
+                reviews: 9,
+                comments: 6,
+                image: "anh/xiaomi-13-pro.jpg",
+                storageOptions: [
+                    { storage: "128GB", price: 12990000 },
+                    { storage: "256GB", price: 14990000 }
+                ],
+                colorOptions: [
+                    { name: "Đen", image: "anh/xiaomi-13-pro.jpg" },
+                    { name: "Xanh", image: "anh/xiaomi-13-pro.jpg" }
+                ]
+            },
+        ];
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector(".cart-count").innerText = totalCount;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id') || "1"; 
+        const product = products.find(p => p.id === productId);
+
+        if (product) {
+            document.getElementById('product-img').src = product.image;
+            document.getElementById('product-img').alt = product.name;
+            document.getElementById('product-name').innerHTML = product.name + (product.storageOptions.length > 0 ? ' <span id="storage">' + product.storageOptions[0].storage + '</span>' : '');
+            document.getElementById('price').innerText = product.price.toLocaleString() + 'đ';
+            document.getElementById('rating-value').innerText = product.rating.toFixed(1);
+            document.getElementById('review-count').innerText = product.reviews;
+            document.getElementById('comment-count').innerText = product.comments;
+
+            const storageOptionsContainer = document.getElementById('storage-options');
+            storageOptionsContainer.innerHTML = '';
+            
+            if (product.storageOptions && product.storageOptions.length > 0) {
+                product.storageOptions.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'option' + (index === 0 ? ' selected' : '');
+                    button.dataset.storage = option.storage;
+                    button.dataset.price = option.price;
+                    button.innerText = option.storage;
+                    storageOptionsContainer.appendChild(button);
+                });
+            } else {
+                document.querySelector('.options p:first-child').style.display = 'none';
+                storageOptionsContainer.style.display = 'none';
+            }
+
+            const colorOptionsContainer = document.getElementById('color-options');
+            colorOptionsContainer.innerHTML = '';
+            
+            if (product.colorOptions && product.colorOptions.length > 0) {
+                product.colorOptions.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'option' + (index === 0 ? ' selected' : '');
+                    button.dataset.color = option.image;
+                    button.innerHTML = `<img src="${option.image}" alt="${option.name}"> ${option.name}`;
+                    colorOptionsContainer.appendChild(button);
+                });
+            } else {
+                document.querySelector('.options p:last-child').style.display = 'none';
+                colorOptionsContainer.style.display = 'none';
+            }
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function () {
+                    let group = this.parentElement.id;
+                    
+                    document.querySelectorAll(`#${group} .option`).forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    if (group === "storage-options") {
+                        document.getElementById('storage').innerText = this.dataset.storage;
+                        let price = this.dataset.price ? parseInt(this.dataset.price) : product.price;
+                        document.getElementById('price').innerText = price.toLocaleString() + "đ";
+                    } else if (group === "color-options") {
+                        document.getElementById('product-img').src = this.dataset.color;
+                    }
+                });
+            });
+
+document.querySelector('.add-to-cart').addEventListener('click', function () {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isLoggedIn = loggedInUser || (user && user.isLoggedIn);
+    
+    if (!isLoggedIn) {
+        const currentUrl = window.location.href;
+        window.location.href = `dangnhap.html?redirect=${encodeURIComponent(currentUrl)}`;
+        return;
+    }
+    
+    const selectedStorage = document.querySelector('#storage-options .option.selected');
+    const storage = selectedStorage ? selectedStorage.dataset.storage : '';
+    const price = selectedStorage ? parseInt(selectedStorage.dataset.price) : product.price;
+    
+    let cartProduct = {
+        id: product.id,
+        name: product.name,
+        storage: storage,
+        price: price,
+        image: document.getElementById('product-img').src,
+        quantity: 1
+    };
+    
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let existingProduct = cart.find(item => 
+        item.id === cartProduct.id && 
+        item.storage === cartProduct.storage
+    );
+    
+    if (existingProduct) {
+        existingProduct.quantity += 1;
+    } else {
+        cart.push(cartProduct);
+    }
+    
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert("Đã thêm vào giỏ hàng!");
+});
+document.querySelector('.buy-now').addEventListener('click', function () {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+        if (!isLoggedIn) {
+        const currentUrl = window.location.href;
+        window.location.href = `dangnhap.html?redirect=${encodeURIComponent(currentUrl)}`;
+        return;
+    }
+    const selectedStorage = document.querySelector('#storage-options .option.selected');
+    const storage = selectedStorage ? selectedStorage.dataset.storage : '';
+    const price = selectedStorage ? parseInt(selectedStorage.dataset.price) : product.price;
+    
+    let cartProduct = {
+        id: product.id,
+        name: product.name,
+        storage: storage,
+        price: price,
+        image: document.getElementById('product-img').src,
+        quantity: 1
+    };
+
+    localStorage.setItem("checkoutCart", JSON.stringify([cartProduct]));
+    window.location.href = "thanhtoan.html";
+});
+        } else {
+            document.querySelector('.product-container').innerHTML = `
+                <div class="error-message">
+                    <h2>Không tìm thấy sản phẩm</h2>
+                    <p>Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+                    <a href="index.html" class="back-button">Quay lại trang chủ</a>
+                </div>
+            `;
+        }
+
+        updateCartCount();
+    });
+</script>
+</body>
+</script>
+<div id="reviews-modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" id="close-reviews">&times;</span>
+    <h3>Danh sách đánh giá</h3>
+    <ul id="reviews-list">
+    </ul>
+  </div>
+</div>
+<div id="comments-modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" id="close-comments">&times;</span>
+    <h3>Danh sách bình luận</h3>
+    <ul id="comments-list">
+    </ul>
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelector('.rating a[href="#"]').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById("reviews-list").innerHTML = "<li>Người dùng A: Rất tốt!</li><li>Người dùng B: Hài lòng!</li>";
+        document.getElementById("reviews-modal").style.display = "block";
+    };
+    document.querySelectorAll('.rating a[href="#"]')[1].onclick = function(e) {
+        e.preventDefault();
+        document.getElementById("comments-list").innerHTML = "<li>Người dùng C: Sản phẩm đẹp!</li><li>Người dùng D: Giao hàng nhanh!</li>";
+        document.getElementById("comments-modal").style.display = "block";
+    };
+    document.getElementById("close-reviews").onclick = function() {
+        document.getElementById("reviews-modal").style.display = "none";
+    };
+    document.getElementById("close-comments").onclick = function() {
+        document.getElementById("comments-modal").style.display = "none";
+    };
+});
+</script>

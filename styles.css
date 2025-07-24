@@ -1,0 +1,181 @@
+body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family:'Inter', sans-serif; 
+}
+Header {
+    background-color: #c3002f;
+    height: 100px;
+    
+}
+.daudo{
+    background-color: #1a1a1a;
+    display: flex;
+    height: 90px;
+}
+.dau{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 5px;
+}
+.logo {
+    font-size: 50px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    color: white;
+    padding-left: 2%;
+}
+
+.chu_o {
+    color: #c3002f;
+}
+
+.search-container {
+    margin-left: 10%;
+    width: 60%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 80px;
+    overflow: hidden;
+    width: 80%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-icon {
+    padding: 0px;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+input {
+    flex: 10px;
+    border: none;
+    outline: none;
+    padding: 12px;
+    font-size: 15px;
+    color: #333;
+}
+
+button {
+    background-color: #c3002f;
+    color: white;
+    border: none;
+    padding: 100% 5%;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #a00027;
+}
+
+.giohang_taikhoan {
+    display: flex;
+    gap: 50px; 
+    align-items: center;
+    padding-right: 3%;
+
+}
+
+.giohang_taikhoan-item {
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 5px;
+    position: relative;
+    text-decoration: none; 
+    cursor: pointer;
+    transition: transform 0.5s;
+}
+
+.giohang_taikhoan-item:hover {
+    transform: scale(1.1);
+}
+
+.giohang-icon, .taikhoan-icon {
+    font-size: 24px;
+    position: relative;
+    display: inline-block;
+}
+p {
+    display: inline-block;
+    font-size: 12px;
+}
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #c3002f;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 6px 9px;
+    border-radius: 50%;
+}
+
+
+
+/* main */
+.gachduoi2{
+    display: flex;
+            
+}
+
+.title{
+    padding: 2%;
+}
+.menu {
+    display: flex;
+    gap: 40px; 
+    position: relative;
+    margin-left: auto;
+    padding: 3.4% 2%;
+}
+
+.menu-item {
+    text-decoration: none;
+    color: gray;
+    font-size: 13px;
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 1px;
+    transition: color 0.3s ease-in-out;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    color: red;
+    font-weight: bold;
+}
+
+.underline {
+    position: absolute;
+    bottom: 60px;
+    height: 2px;
+    background-color: red;
+    width: 0;
+    transition: all 0.3s ease-in-out;
+}
+/* main */
+
+
+/* footer */
+.nendofooter{
+    background-color: #c3002f;
+    height: 10px;
+    width: 100%;
+}
+
+
+
+
+/* footer */

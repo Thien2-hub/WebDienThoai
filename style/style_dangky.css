@@ -1,0 +1,105 @@
+.logo-den {
+    font-family: Arial, sans-serif;
+    font-size: 50px;
+    font-weight: bold;
+    color: #191919;
+    text-align: center;
+    margin: 30px 0;
+}
+.logo-den .red {
+    color: #D0021B;
+}
+.login-container {
+    width: 400px;
+    margin: 0 auto;
+}
+.input-box {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+.links {
+    text-align: right;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.links a {
+    text-decoration: none;
+    color: red;
+    font-weight: bold;
+}
+.links a:hover {
+    text-decoration: underline;
+}
+.btnDN {
+    background-color: #c90024;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 15px 17px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+.btnDN:hover {
+    background-color: #a8001d;
+}
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px auto;
+    width: 50%;
+}
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+}
+.separator:not(:empty)::before {
+    margin-right: 10px;
+}
+.separator:not(:empty)::after {
+    margin-left: 10px;
+}
+.separator-text {
+    font-weight: bold;
+    color: #666;
+}
+.btn-google {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    font-size: 14px;
+    background-color: white;
+    width: 200px;
+    color: #191919;
+    margin: 10px auto;
+    text-align: center;
+}
+.btn-google img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+.btn-google:hover {
+    background-color: #f1f1f1;
+}
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    margin-right: 8px;
+}
+a {
+    text-decoration: none;
+    color: white;
+}

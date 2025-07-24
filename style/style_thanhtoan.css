@@ -1,0 +1,213 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    font-size: 16px;
+}
+
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 30px auto;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.breadcrumb {
+    max-width: 1200px;
+    margin: 30px auto 10px;
+    padding: 0 20px;
+}
+
+.checkout-form {
+    width: 60%;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-form h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #d50016;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form-group.checkbox input {
+    width: auto;
+    margin-right: 10px;
+}
+
+.form-group.checkbox label {
+    margin: 0;
+    font-weight: normal;
+}
+
+.form-group.checkbox a {
+    color: #d50016;
+    text-decoration: none;
+}
+
+.form-group.checkbox a:hover {
+    text-decoration: underline;
+}
+
+button#placeOrder {
+    width: 100%;
+    padding: 15px;
+    background-color: #d50016;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+}
+
+button#placeOrder:hover {
+    background-color: #b30012;
+}
+
+button#placeOrder:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Tóm tắt đơn hàng */
+.order-summary {
+    width: 35%;
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #d50016;
+    padding-bottom: 10px;
+}
+
+.order-item {
+    display: flex;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details p {
+    margin: 5px 0;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.product-color {
+    font-size: 14px;
+    color: #666;
+}
+
+.product-price {
+    font-size: 15px;
+    color: #d50016;
+    font-weight: bold;
+}
+
+.total {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #ddd;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.total p {
+    margin: 0;
+}
+
+#total-price {
+    color: #d50016;
+    font-size: 22px;
+}
+
+.error {
+    border-color: #d50016 !important;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .checkout-container {
+        flex-direction: column;
+    }
+    
+    .checkout-form,
+    .order-summary {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}

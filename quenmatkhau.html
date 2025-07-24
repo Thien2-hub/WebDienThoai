@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quên Mật Khẩu</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style/style_dangnhap.css">
+    <style>
+        .auth-container {
+            max-width: 450px;
+            margin: 30px auto;
+        }
+        
+        .auth-form h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button[type="submit"] {
+            background-color: #d70018;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+        
+        .auth-links {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .auth-links a {
+            color: #d70018;
+            text-decoration: none;
+        }
+        
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .message.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .message.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="daudo">
+            <div class="dau">
+                <div class="logo">
+                    <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-form">
+                <h2>Quên Mật Khẩu</h2>
+                <div id="message" class="message"></div>
+                
+                <form id="find-account-form">
+                    <div class="form-group">
+                        <label for="email">Email hoặc tên đăng nhập:</label>
+                        <input type="text" id="email" name="email" required>
+                    </div>
+                    <button type="submit">Tìm tài khoản</button>
+                </form>
+                
+                <form id="reset-password-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="new-password">Mật khẩu mới:</label>
+                        <input type="password" id="new-password" name="new-password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Xác nhận mật khẩu:</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required minlength="6">
+                    </div>
+                    <button type="submit">Đặt lại mật khẩu</button>
+                </form>
+                
+                <div class="auth-links">
+                    <a href="dangnhap.html">Quay lại đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const findAccountForm = document.getElementById("find-account-form");
+            const resetPasswordForm = document.getElementById("reset-password-form");
+            const messageDiv = document.getElementById("message");
+            let foundUser = null;
+            
+            findAccountForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                
+                const emailOrUsername = document.getElementById("email").value.trim();
+                if (!emailOrUsername) {
+                    showMessage("Vui lòng nhập email hoặc tên đăng nhập", "error");
+                    return;
+                }
+                
+                const users = JSON.parse(localStorage.getItem("users")) || [];
+                foundUser = users.find(user => 
+                    user.email === emailOrUsername || user.username === emailOrUsername
+                );
+                
+                if (!foundUser) {
+                    showMessage("Không tìm thấy tài khoản với thông tin này", "error");
+                    return;
+                }
+                
+                findAccountForm.style.display = "none";
+                resetPasswordForm.style.display = "block";
+                showMessage(`Đặt lại mật khẩu cho tài khoản: ${foundUser.username}`, "success");
+            });
+            
+            resetPasswordForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                
+                const newPassword = document.getElementById("new-password").value;
+                const confirmPassword = document.getElementById("confirm-password").value;
+                
+                if (newPassword.length < 6) {
+                    showMessage("Mật khẩu phải có ít nhất 6 ký tự", "error");
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    showMessage("Mật khẩu xác nhận không khớp", "error");
+                    return;
+                }
+                
+                if (foundUser) {
+                    const users = JSON.parse(localStorage.getItem("users")) || [];
+                    const updatedUsers = users.map(user => {
+                        if (user.username === foundUser.username) {
+                            return { ...user, password: newPassword };
+                        }
+                        return user;
+                    });
+                    
+                    localStorage.setItem("users", JSON.stringify(updatedUsers));
+                    showMessage("Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.", "success");
+                    
+                    setTimeout(() => {
+                        window.location.href = "dangnhap.html";
+                    }, 2000);
+                }
+            });
+            
+            function showMessage(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+            }
+        });
+    </script>
+</body>
+</html>

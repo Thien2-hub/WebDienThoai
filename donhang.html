@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đơn hàng của tôi - NHoM7 Shop</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style/style_header.css" />
+    <link rel="stylesheet" href="style/style_donhang.css" />
+    <link rel="stylesheet" href="style/style_hamburger.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      /* Thêm CSS inline để đảm bảo menu cuộn hiển thị đúng */
+      .menu-cuon {
+        background-color: #f8f8f8;
+        padding: 10px 0;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 20px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .menu-cuon ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content: center;
+      }
+      
+      .menu-cuon li {
+        margin: 0 15px;
+      }
+      
+      .menu-cuon a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        padding: 8px 15px;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+      }
+      
+      .menu-cuon a.active {
+        background-color: #d70018;
+        color: white;
+      }
+      
+      .menu-cuon a:hover {
+        background-color: #f0f0f0;
+      }
+      
+      /* Đảm bảo avatar hiển thị đúng */
+      .user-avatar {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+      }
+      
+      /* Đảm bảo menu hamburger hiển thị đúng */
+      @media (max-width: 768px) {
+        .hamburger-menu {
+          display: block;
+          position: absolute;
+          right: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        
+        .menu-cuon {
+          overflow-x: auto;
+        }
+        
+        .menu-cuon ul {
+          justify-content: flex-start;
+          min-width: max-content;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="daudo">
+        <div class="dau">
+          <div class="logo">
+            <a href="index.html">NH<span class="chu_o">o</span>M7</a>
+          </div>
+          <div class="search-container">
+            <div class="search-box">
+              <span class="search-icon"><i class="fas fa-search"></i></span>
+              <input
+                type="text"
+                placeholder="Tìm kiếm sản phẩm..."
+                id="searchInput"
+              />
+              <button id="searchButton">Tìm Kiếm</button>
+            </div>
+          </div>
+          <div class="giohang_taikhoan">
+            <!-- Biểu tượng giỏ hàng -->
+            <a href="giohang.html" class="giohang_taikhoan-item">
+              <div class="giohang-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+              </div>
+              <p>Giỏ Hàng</p>
+            </a>
+
+            <!-- Biểu tượng tài khoản -->
+            <a href="taikhoan.html" class="giohang_taikhoan-item">
+              <img id="userAvatar" class="user-avatar" src="anh/avatar.png" alt="Avatar" />
+              <p id="usernameDisplay">Tài khoản</p>
+            </a>
+          </div>
+          
+          <!-- Nút hamburger menu -->
+          <div class="hamburger-menu" id="hamburgerMenu">
+            <div class="hamburger-icon">
+              <i class="fas fa-bars"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Menu cuộn ngang -->
+    <div class="menu-cuon">
+      <ul>
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="danhmuc.html">Danh mục</a></li>
+        <li><a href="gioithieu.html">Giới thiệu</a></li>
+        <li><a href="lienhe.html">Liên hệ</a></li>
+        <li><a href="danhgia.html">Đánh giá</a></li>
+        <li><a href="donhang.html" class="active">Đơn hàng</a></li>
+      </ul>
+    </div>
+
+    <!-- Overlay cho menu di động -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Menu di động -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-header">
+        <h3>Menu</h3>
+        <button class="close-menu" id="closeMenu">×</button>
+      </div>
+      <ul class="mobile-menu-items">
+        <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+        <li><a href="danhmuc.html"><i class="fas fa-list"></i> Danh mục</a></li>
+        <li><a href="gioithieu.html"><i class="fas fa-info-circle"></i> Giới thiệu</a></li>
+        <li><a href="lienhe.html"><i class="fas fa-envelope"></i> Liên hệ</a></li>
+        <li><a href="danhgia.html"><i class="fas fa-shopping-bag"></i> Đánh giá</a></li>
+        <li><a href="donhang.html" class="active"><i class="fas fa-shopping-bag"></i> Đơn hàng</a></li>
+        <li id="loginMobile"><a href="dangnhap.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+        <li id="registerMobile"><a href="dangky.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+        <li id="logoutMobile" style="display: none;"><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+      </ul>
+    </div>
+
+    <main>
+      <div class="order-history-container">
+        <h1 class="order-history-title">Lịch sử đơn hàng</h1>
+
+        <div class="order-filters">
+          <button class="filter-btn active" data-status="all">Tất cả</button>
+          <button class="filter-btn" data-status="chờ xử lý">Chờ xử lý</button>
+          <button class="filter-btn" data-status="đang giao">Đang giao</button>
+          <button class="filter-btn" data-status="đã hoàn thành">Đã hoàn thành</button>
+          <button class="filter-btn" data-status="đã hủy">Đã hủy</button>
+        </div>
+        
+        <div id="order-list">
+          <div class="loading">Đang tải đơn hàng...</div>
+        </div>
+        
+        <div id="no-orders" style="display: none;">
+          <div class="empty-orders">
+            <i class="fas fa-shopping-bag"></i>
+            <p>Bạn chưa có đơn hàng nào.</p>
+            <a href="index.html" class="shop-now-btn">Mua sắm ngay</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+        <div class="footer-section">
+          <div class="order-support">
+             <h3>Về chúng tôi</h3>
+          <p>NHoM7 Store chuyên bán thiết bị di động chính hãng hàng đầu Việt Nam.</p>
+            <h3>Cần hỗ trợ về đơn hàng?</h3>
+            <p>Liên hệ với chúng tôi qua các kênh sau:</p>
+            <div class="support-info">
+              <div class="support-row">
+                <i class="fas fa-phone-alt"></i>
+                <span>Hotline: </span>
+                <a href="tel:18001234">1800 1234</a>
+                <span class="note">(Miễn phí, 8h-21h)</span>
+              </div>
+              <div class="support-row">
+                <i class="fas fa-envelope"></i>
+                <span>Email: </span>
+                <a href="mailto:hotro@nhom7shop.com">hotro@nhom7shop.com</a>
+              </div>
+              <div class="support-row">
+                <i class="fab fa-facebook-messenger"></i>
+                <span>Chat: </span>
+                <a href="#">Nhắn tin qua Facebook</a>
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                        <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 NHoM7 Shop. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <style>
+      .order-support {
+        background-color: #f5f7fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 0;
+        border-left: 3px solid #d70018;
+      }
+      
+      .order-support h3 {
+        color: #333;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+      
+      .order-support p {
+        margin-bottom: 15px;
+        color: #555;
+        font-size: 14px;
+      }
+      
+      .support-info {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .support-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        line-height: 1.5;
+      }
+      
+      .support-row i {
+        color: #d70018;
+        margin-right: 10px;
+        width: 16px;
+        text-align: center;
+      }
+      
+      .support-row span {
+        color: #333;
+      }
+      
+      .support-row a {
+        color: #d70018;
+        text-decoration: none;
+        font-weight: 500;
+        margin-right: 5px;
+      }
+      
+      .support-row a:hover {
+        text-decoration: underline;
+      }
+      
+      .support-row .note {
+        color: #666;
+        font-size: 13px;
+      }
+    </style>
+
+    <script src="js/order.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("hamburgerMenu").addEventListener("click", function() {
+          document.getElementById("mobileMenu").classList.add("active");
+          document.getElementById("mobileMenuOverlay").classList.add("active");
+          document.body.style.overflow = "hidden";
+        });
+
+        document.getElementById("closeMenu").addEventListener("click", function() {
+          document.getElementById("mobileMenu").classList.remove("active");
+          document.getElementById("mobileMenuOverlay").classList.remove("active");
+          document.body.style.overflow = ""; 
+        });
+
+        document.getElementById("mobileMenuOverlay").addEventListener("click", function() {
+          document.getElementById("mobileMenu").classList.remove("active");
+          document.getElementById("mobileMenuOverlay").classList.remove("active");
+          document.body.style.overflow = "";
+        });
+
+        function updateUserInfo() {
+          const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+          const username = localStorage.getItem("username");
+          const avatar = localStorage.getItem("userAvatar") || "anh/avt_trang.png";
+          
+          if (isLoggedIn && username) {
+            document.getElementById("usernameDisplay").textContent = username;
+            document.getElementById("userAvatar").src = avatar;
+            
+            document.getElementById("loginMobile").style.display = "none";
+            document.getElementById("registerMobile").style.display = "none";
+            document.getElementById("logoutMobile").style.display = "block";
+          }
+        }
+        
+        updateUserInfo();
+        
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        filterButtons.forEach(button => {
+          button.addEventListener("click", function() {
+            filterButtons.forEach(btn => btn.classList.remove("active"));
+            
+            this.classList.add("active");
+            
+            const filterStatus = this.getAttribute("data-status");
+            
+            filterOrders(filterStatus);
+          });
+        });
+        
+        loadOrders();
+      });
+
+      function logout() {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("username");
+        window.location.href = "index.html";
+      }
+      
+      function loadOrders() {
+        const orderList = document.getElementById("order-list");
+        const noOrders = document.getElementById("no-orders");
+        
+        const username = localStorage.getItem("username");
+        if (!username) {
+          orderList.style.display = "none";
+          noOrders.style.display = "block";
+          return;
+        }
+        
+        let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+        
+        let userOrders = orders.filter(order => order.username === username);
+        
+        if (userOrders.length === 0) {
+          orderList.style.display = "none";
+          noOrders.style.display = "block";
+        } else {
+          orderList.style.display = "block";
+          noOrders.style.display = "none";
+          
+          displayOrders(userOrders);
+        }
+      }
+      
+      function filterOrders(status) {
+        let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+        
+        const username = localStorage.getItem("username");
+        
+        let userOrders = orders.filter(order => order.username === username);
+        
+        if (status !== "all") {
+          userOrders = userOrders.filter(order => order.status.toLowerCase() === status.toLowerCase());
+        }
+        
+        displayOrders(userOrders);
+      }
+      
+      function displayOrders(orders) {
+        const orderList = document.getElementById("order-list");
+        
+        if (orders.length === 0) {
+          orderList.innerHTML = `
+            <div class="empty-orders">
+              <i class="fas fa-file-alt"></i>
+              <p>Không có đơn hàng nào trong mục này</p>
+            </div>
+          `;
+          return;
+        }
+        
+        orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        let html = '';
+        
+        orders.forEach(order => {
+          const orderDate = new Date(order.date);
+          const formattedDate = orderDate.toLocaleDateString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          let statusClass = "";
+          switch(order.status.toLowerCase()) {
+            case "chờ xử lý": statusClass = "status-pending"; break;
+            case "đang giao": statusClass = "status-shipping"; break;
+            case "đã hoàn thành": statusClass = "status-completed"; break;
+            case "đã hủy": statusClass = "status-cancelled"; break;
+            default: statusClass = "";
+          }
+          
+          let productsHtml = '';
+          order.items.forEach(item => {
+            productsHtml += `
+              <div class="order-product">
+                <img src="${item.image}" alt="${item.name}" class="product-image">
+                <div class="product-info">
+<h4>${item.name}${item.isGift ? ' <span style="color:#d70018">(Quà tặng)</span>' : ''}</h4>                  <p>Số lượng: ${item.quantity}</p>
+                  <p>Giá: ${formatCurrency(item.price)}</p>
+                </div>
+              </div>
+            `;
+          });
+          
+          html += `
+            <div class="order-card">
+              <div class="order-header">
+                <div class="order-info">
+                  <div class="order-id">Đơn hàng #${order.id}</div>
+                  <div class="order-date">${formattedDate}</div>
+                </div>
+                <div class="order-status ${statusClass}">${order.status}</div>
+              </div>
+              
+              <div class="order-content">
+                <div class="order-products">
+                  ${productsHtml}
+                </div>
+                
+                <div class="order-summary">
+                  <div class="order-total">
+                    <span>Tổng tiền:</span>
+                    <span class="total-amount">${formatCurrency(order.total)}</span>
+                  </div>
+                  
+                  <div class="order-actions">
+                    <a href="chitietdonhang.html?id=${order.id}" class="view-detail-btn">
+                      <i class="fas fa-eye"></i> Xem chi tiết
+                    </a>
+                    
+                    ${order.status.toLowerCase() === "chờ xử lý" ? 
+                      `<button class="cancel-btn" onclick="cancelOrder('${order.id}')">
+                        <i class="fas fa-times"></i> Hủy đơn
+                      </button>` : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        
+        orderList.innerHTML = html;
+      }
+      
+      function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {
+          style: 'currency',
+          currency: 'VND'
+        }).format(amount);
+      }
+let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+orders.push(newOrder); 
+localStorage.setItem("orders", JSON.stringify(orders));
+      function cancelOrder(orderId) {
+        if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này?")) {
+          let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+          
+          const orderIndex = orders.findIndex(order => order.id === orderId);
+          
+          if (orderIndex !== -1) {
+            orders[orderIndex].status = "Đã hủy";
+            
+            localStorage.setItem("orders", JSON.stringify(orders));
+            
+            loadOrders();
+            
+            alert("Đơn hàng đã được hủy thành công!");
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

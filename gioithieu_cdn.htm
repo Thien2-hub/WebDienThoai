@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style/style_index.css">
+    <link rel="stylesheet" href="style/style_gioithieu.css">
+    <title>Giới thiệu</title>
+</head>
+<body>
+    <Header>
+        <div class="daudo">
+            <div class="dau">
+                <div class="logo">
+                    <a id="lam" href="trangchu_cdn.html">NH<span class="chu_o">o</span>M7</a>
+                </div>
+                <div class="search-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Tìm kiếm ở đây" id="searchInput">
+                        <button id="searchButton">Tìm Kiếm</button>
+                    </div>
+                </div>
+            
+                <script>
+                    document.getElementById("searchButton").addEventListener("click", function() {
+                        let searchValue = document.getElementById("searchInput").value;
+                        alert("Bạn đã tìm kiếm: " + searchValue);
+                    });
+                </script>
+            </div>
+            <div class="giohang_taikhoan">
+                <a href="giohang.html" class="giohang_taikhoan-item">
+                    <div class="giohang-icon">
+                        🛒
+                        <span class="cart-count">0</span>
+                    </div>
+                    <p>Giỏ Hàng</p>
+                </a>
+        
+                <a href="taikhoan.html" class="giohang_taikhoan-item">
+                    <img id="userAvatar" class="user-avatar" src="anh/avt_trang.png " alt="Avatar">
+                    <p id="usernameDisplay">Tài khoản</p>
+                </a>
+
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </Header>
+    
+    <div class="gachtrang">
+        <nav class="trangchu_cdn_danhmuc_cdn_gioithieu_cdn">
+            <a href="trangchu_cdn.html" class="trangchu_cdn_danhmuc_cdn_gioithieu_cdn-item ">Trang Chủ</a>
+            <a href="danhmuc_cdn.html" class="trangchu_cdn_danhmuc_cdn_gioithieu_cdn-item">Danh Mục</a>
+            <a href="gioithieu_cdn.html" class="trangchu_cdn_danhmuc_cdn_gioithieu_cdn-item active">Giới Thiệu</a>
+            <span class="underline1"></span>
+        </nav>
+    </div>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuItems = document.querySelectorAll(".trangchu_cdn_danhmuc_cdn_gioithieu_cdn-item");
+        const underline = document.querySelector(".underline1");
+
+        function moveUnderline(element) {
+            underline.style.width = `${element.offsetWidth}px`;
+            underline.style.left = `${element.offsetLeft}px`;
+        }
+
+        const activeItem = document.querySelector(".trangchu_cdn_danhmuc_cdn_gioithieu_cdn-item.active");
+        if (activeItem) {
+            moveUnderline(activeItem);
+        }
+
+        menuItems.forEach(item => {
+            item.addEventListener("click", function (e) {
+                if (this.getAttribute("href") === "#") {
+                    e.preventDefault(); 
+                }
+
+                menuItems.forEach(i => i.classList.remove("active"));
+                this.classList.add("active");
+                moveUnderline(this);
+            });
+        });
+    });
+document.getElementById("searchButton").addEventListener("click", function() {
+    handleSearch();
+});
+
+document.getElementById("searchInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        handleSearch();
+    }
+});
+
+function handleSearch() {
+    let searchValue = document.getElementById("searchInput").value.trim();
+    if (searchValue) {
+        window.location.href = `timkiem.html?q=${encodeURIComponent(searchValue)}`;
+    } else {
+        alert("Vui lòng nhập từ khóa tìm kiếm!");
+    }
+}
+    </script>
+<main>
+    <div class="about-container">
+        <div class="about-section">
+            <h1>Giới thiệu về NHoM7</h1>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="anh/store.jpg" alt="Cửa hàng NHoM7">
+                </div>
+                <div class="about-text">
+                    <h2>Chào mừng đến với NHoM7 - Cửa hàng điện thoại uy tín hàng đầu</h2>
+                    <p>NHoM7 được thành lập vào năm 2023, là đơn vị chuyên cung cấp các sản phẩm công nghệ chính hãng với chất lượng cao và dịch vụ chăm sóc khách hàng tận tâm.</p>
+                    <p>Với phương châm "Khách hàng là trọng tâm", chúng tôi luôn nỗ lực mang đến những sản phẩm công nghệ mới nhất, chất lượng nhất với mức giá hợp lý nhất cho khách hàng.</p>
+                    <p>Đội ngũ nhân viên của chúng tôi được đào tạo chuyên nghiệp, luôn sẵn sàng tư vấn và hỗ trợ khách hàng một cách nhiệt tình nhất.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mission-section">
+            <h2>Sứ mệnh và Tầm nhìn</h2>
+            <div class="mission-content">
+                <div class="mission-item">
+                    <h3>Sứ mệnh</h3>
+                    <p>Mang đến cho khách hàng những sản phẩm công nghệ chất lượng cao với giá cả hợp lý, kèm theo dịch vụ chăm sóc khách hàng tận tâm.</p>
+                </div>
+                <div class="mission-item">
+                    <h3>Tầm nhìn</h3>
+                    <p>Trở thành cửa hàng điện thoại uy tín hàng đầu, là điểm đến tin cậy của mọi khách hàng khi có nhu cầu về sản phẩm công nghệ.</p>
+                </div>
+                <div class="mission-item">
+                    <h3>Giá trị cốt lõi</h3>
+                    <p>Chất lượng - Uy tín - Tận tâm - Chuyên nghiệp</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="why-choose-section">
+    <h2>Tại sao chọn NHoM7?</h2>
+    <div class="why-choose-content">
+        <div class="why-choose-item">
+            <div class="icon">🛒</div>
+            <h3>Sản phẩm chính hãng</h3>
+            <p>Tất cả sản phẩm tại NHoM7 đều là hàng chính hãng, được nhập khẩu trực tiếp từ nhà sản xuất.</p>
+        </div>
+        <div class="why-choose-item">
+            <div class="icon">💰</div>
+            <h3>Giá cả hợp lý</h3>
+            <p>Chúng tôi cam kết mang đến mức giá tốt nhất cho khách hàng với nhiều chương trình khuyến mãi hấp dẫn.</p>
+        </div>
+        <div class="why-choose-item">
+            <div class="icon">🛠️</div>
+            <h3>Bảo hành chuyên nghiệp</h3>
+            <p>Chế độ bảo hành dài hạn, quy trình xử lý nhanh chóng, đội ngũ kỹ thuật chuyên nghiệp.</p>
+        </div>
+        <div class="why-choose-item">
+            <div class="icon">👨‍💼</div>
+            <h3>Đội ngũ tư vấn tận tâm</h3>
+            <p>Nhân viên tư vấn nhiệt tình, am hiểu sản phẩm, luôn sẵn sàng hỗ trợ khách hàng.</p>
+        </div>
+    </div>
+</div>
+        <div class="contact-section">
+            <h2>Thông tin liên hệ</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, Thành phố HCM</p>
+                    <p><strong>Điện thoại:</strong> 0123 456 789</p>
+                    <p><strong>Email:</strong> info@nhom7.com</p>
+                    <p><strong>Giờ làm việc:</strong> 8:00 - 21:00 (Thứ 2 - Chủ nhật)</p>
+                </div>
+                <div class="social-media">
+                    <h3>Kết nối với chúng tôi</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">Facebook</a>
+                        <a href="#" class="social-icon">Instagram</a>
+                        <a href="#" class="social-icon">YouTube</a>
+                        <a href="#" class="social-icon">TikTok</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
